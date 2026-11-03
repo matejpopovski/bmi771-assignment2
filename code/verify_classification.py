@@ -19,7 +19,7 @@ def audit():
     for name in NAMES:
         folder = ROOT / 'results' / name
         required = ['config.yaml', 'model_final.pth.tar', 'metrics.json',
-                    'history.jsonl', 'training.log', 'evaluation.log']
+                    'history.jsonl', 'training.log', 'evaluation.log', 'verification.json']
         missing = [filename for filename in required if not (folder / filename).is_file()]
         if missing:
             errors.append(f'{name}: missing ' + ', '.join(missing))
@@ -50,6 +50,16 @@ def audit():
         if not list((folder / 'logs').rglob('events.out.tfevents.*')):
             errors.append(f'{name}: TensorBoard events missing')
         checkpoint_path = folder / 'model_final.pth.tar'
+        checkpoint_hash = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
+        recheck = json.loads((folder / 'verification.json').read_text())
+        if recheck.get('checkpoint_sha256') != checkpoint_hash:
+            errors.append(f'{name}: independent evaluation used a different checkpoint')
+        if recheck['metrics'].get('num_images') != 10000:
+            errors.append(f'{name}: independent evaluation is incomplete')
+        for key in ('top1', 'top5'):
+            score = recheck['metrics'].get(key, float('nan'))
+            if not math.isfinite(score) or abs(score - metrics[key]) > 0.1:
+                errors.append(f'{name}: independent evaluation disagrees on {key}')
         checkpoint = torch.load(checkpoint_path, map_location='cpu', weights_only=True)
         if checkpoint['epoch'] + 1 != epochs:
             errors.append(f'{name}: checkpoint is not the final scheduled epoch')
@@ -66,7 +76,8 @@ def audit():
         summaries[name] = dict(epochs=epochs, parameters=sum(p.numel() for p in model.parameters()),
                                metrics=metrics, device=cfg['devices'][0],
                                batch_size=cfg['loader']['batch_size'],
-                               checkpoint_sha256=hashlib.sha256(checkpoint_path.read_bytes()).hexdigest())
+                               checkpoint_sha256=checkpoint_hash,
+                               independent_evaluation=recheck)
         del model, checkpoint
     result = dict(ready=not errors, scope='classification contribution only; not a complete team submission',
                   errors=errors, experiments=summaries)

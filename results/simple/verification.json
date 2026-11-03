@@ -1,0 +1,16 @@
+{
+  "device": "mps",
+  "torch": "2.15.0",
+  "batch_size": 128,
+  "metrics": {
+    "top1": 43.43,
+    "top5": 72.49,
+    "num_images": 10000,
+    "seconds": 7.051905155181885
+  },
+  "difference_percentage_points": {
+    "top1": 0.0,
+    "top5": 0.0
+  },
+  "checkpoint_sha256": "3fb5b089f6e0da735b237b19d152358ede0c8a5003239888112c43d8526fc02b"
+}

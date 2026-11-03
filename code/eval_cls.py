@@ -17,6 +17,8 @@ def main(args):
     # sanity check
     if os.path.isfile(args.config):
         cfg = load_config(args.config)
+        if args.device:
+            cfg['devices'] = [args.device]
         pprint(cfg)
     else:
         raise ValueError("Config file does not exist.")
@@ -54,7 +56,8 @@ def main(args):
                     eval_aug=args.flip, print_freq=args.print_freq, return_metrics=True)
     metrics["seconds"] = time.time() - start
     metrics["flip_augmentation"] = args.flip
-    with open(os.path.join(os.path.dirname(ckpt_file), "metrics.json"), "w") as stream:
+    output_path = args.metrics_output or os.path.join(os.path.dirname(ckpt_file), "metrics.json")
+    with open(output_path, "w") as stream:
         json.dump(metrics, stream, indent=2)
     print('All done! Total time: {:.2f} sec'.format(time.time() - start))
     return metrics["top1"]
@@ -67,4 +70,6 @@ if __name__ == '__main__':
     parser.add_argument('-e', '--epoch', default=-1, type=int, help='zero-based checkpoint epoch')
     parser.add_argument('-p', '--print-freq', default=10, type=int)
     parser.add_argument('--flip', action='store_true', help='optional horizontal-flip test augmentation')
+    parser.add_argument('--device', default='', help='override saved device, e.g. cuda:0, mps, or cpu')
+    parser.add_argument('--metrics-output', default='', help='save a separate evaluation record without replacing the original metrics')
     main(parser.parse_args())

@@ -152,6 +152,10 @@ def main():
     p('Train minutes sum measured training loops and exclude validation and setup. Evaluation seconds cover the full validation loader and model inference. SimpleNet, SceneCNN, and ResNet-18 run on an Apple M3 Max with 30 GPU cores and 36 GB unified memory (FP32); ViT runs on a Colab Tesla T4 (mixed FP16 training). Timing is not a controlled cross-device speed benchmark. Pretrained ResNet-18 also benefits from an external supervised dataset and a shorter fine-tuning schedule.')
     heading('Verification and reproducibility')
     p('The classifier audit checks all four final epoch numbers, complete histories, full validation counts, agreement between final-epoch and checkpoint evaluation, finite weights/metrics, TensorBoard files, and strict checkpoint loading against the saved model configuration. Reloaded models also produce finite 100-class outputs. Evaluation requires no initialization-weight download. SHA-256 digests identify the exact final checkpoints in results/classification_audit.json.')
+    if complete:
+        max_delta=max(abs(item['independent_evaluation']['metrics'][key]-item['metrics'][key])
+                      for item in summaries.values() for key in ('top1','top5'))
+        p(f'All four saved checkpoints were independently re-evaluated on the full 10,000-image validation split on MPS. The largest absolute top-1 or top-5 difference from the primary evaluation was {max_delta:.2f} percentage points. Each verification.json records the checkpoint digest, device, package version, and measured scores.')
     for label,filename in [('Local','local_tests.txt'),('Cloud','cloud_tests.txt')]:
         path=ROOT/'results'/filename
         if path.exists():
