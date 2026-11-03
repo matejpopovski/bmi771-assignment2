@@ -29,6 +29,9 @@ python code/run_experiments.py --device cuda:0 --experiments simple cnn vit resn
 python code/run_experiments.py --device cuda:0 --experiments fcos --reference
 ```
 
+[Open the classifier Colab notebook](https://colab.research.google.com/github/matejpopovski/bmi771-assignment2/blob/main/code/classification_colab.ipynb)
+for a GPU setup, training, and results-download workflow. Select a T4 runtime.
+
 Mac GPU: replace `cuda:0` with `mps`. The runner saves actual runtime settings in
 `results/<experiment>/config.yaml`, resumes checkpoints, and collects final
 artifacts. See [code/README.txt](code/README.txt) for evaluation and bonus commands.

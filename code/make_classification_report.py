@@ -96,6 +96,8 @@ def main():
         ['Classifier','Global mean pooling, dropout 0.2, linear 256 to 100','100 logits']
     ],[105,285,118])
     p('Each residual block has two 3 x 3 convolutions with batch normalization, a ReLU between them, and a ReLU after adding the shortcut. A 1 x 1 projection plus batch normalization aligns dimensions when stride or channels change. The last normalization scale in each residual branch starts at zero. Skip connections give gradients a shorter path; normalization stabilizes activation scales; narrow early stages and downsampling control computation. Global pooling and dropout limit the final classifier size and provide regularization.')
+    if 'cnn' in compute and 'simple' in compute:
+        p(f"SceneCNN has {compute['cnn']['parameters']/compute['simple']['parameters']:.2f} times the parameters of SimpleNet, while using {100*(1-compute['cnn']['macs']/compute['simple']['macs']):.1f}% fewer estimated forward MACs. Its larger channel capacity operates mostly on downsampled feature maps. This trades parameter storage for capacity while keeping the operation count modest; measured runtime also depends on the hardware and kernels.")
     p('The unchanged SimpleNet comparison uses three convolutional groups with bottleneck layers, ReLUs, max pooling, and global average pooling, without normalization or residual connections. The transfer-learning comparison replaces the ImageNet ResNet-18 head with a new 100-class linear layer and fine-tunes all parameters.')
     rows=[['Model','Optimizer and regularization','Schedule','Batch / device']]
     for name in ['simple','cnn','resnet18']:

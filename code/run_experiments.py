@@ -43,7 +43,11 @@ def collect(source, destination):
             continue
         target = destination / path.name
         if path.is_dir():
-            shutil.copytree(path, target, dirs_exist_ok=True)
+            # Published results may already contain an earlier run's events.
+            # Replace the collected directory so TensorBoard cannot mix runs.
+            if target.exists():
+                shutil.rmtree(target)
+            shutil.copytree(path, target)
         else:
             shutil.copy2(path, target)
     if (source / 'viz').exists():
