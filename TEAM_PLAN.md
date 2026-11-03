@@ -35,6 +35,9 @@ pipeline; the teammate maintains the detector experiment pipeline.
 - `main`: reviewed integration. Use pull requests; no force pushes.
 - Preserve existing function signatures and tensor layouts. `Attention` and
   `TransformerBlock` take/return `(batch, height, width, channels)`.
+- After changing `TransformerBlock`, run the shared tests and re-evaluate the
+  saved ViT checkpoint. Changes to parameter shapes or forward computation may
+  require coordinated retraining; agree on them before replacing the shared code.
 - Keep the current tested Transformer block available as shared initial
   scaffolding so classifier experiments are not blocked. The teammate owns its
   independent review, changes if needed, tests, and writeup. Do not rewrite a
