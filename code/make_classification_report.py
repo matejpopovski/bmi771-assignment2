@@ -67,7 +67,7 @@ def main():
         p('<b>DRAFT: classifier experiments are still incomplete. No pending value is a measured result.</b>')
     heading('Scope and evaluation protocol')
     p('This contribution covers custom CNN design/training (2 points), comparison with SimpleNet and fine-tuned ResNet-18 (1), multi-head attention (1), and ViT design/training (2): six required points. The teammate owns the one-point Transformer-block task and five-point FCOS tasks. This is a component report for integration into the final team PDF, not the complete assignment submission.')
-    p('MiniPlaces has 100 training classes, 100,000 training images, and 10,000 labeled validation images. Only the training split updates model parameters. Every reported classifier is evaluated on all 10,000 validation images using a single center crop, without flip averaging. CNN, SimpleNet, and ViT use random initialization; only the designated ResNet-18 comparison uses ImageNet pretraining.')
+    p('MiniPlaces has 100 training classes, 100,000 training images, and 10,000 labeled validation images [1, 2]. Only the training split updates model parameters. Every reported classifier is evaluated on all 10,000 validation images using a single center crop, without flip averaging. CNN, SimpleNet, and ViT use random initialization; only the designated ResNet-18 comparison uses ImageNet pretraining.')
     p('All runs use seed 771. Training applies a random resized 128 x 128 crop, horizontal flip, color jitter 0.15, and rotation up to 15 degrees. Validation resizes the short side to 144 and center-crops 128 x 128. Both use ImageNet channel normalization. Final scheduled checkpoints are reported, rather than selecting the best validation epoch after seeing results.')
     heading('Measured validation results')
     rows=[['Model','Params (M)','MACs (M)','Top-1','Top-5','Epochs']]
@@ -95,7 +95,7 @@ def main():
         ['Residual stage 4','Two blocks, channels 256; first stride 2','256 x 4 x 4'],
         ['Classifier','Global mean pooling, dropout 0.2, linear 256 to 100','100 logits']
     ],[105,285,118])
-    p('Each residual block has two 3 x 3 convolutions with batch normalization, a ReLU between them, and a ReLU after adding the shortcut. A 1 x 1 projection plus batch normalization aligns dimensions when stride or channels change. The last normalization scale in each residual branch starts at zero. Skip connections give gradients a shorter path; normalization stabilizes activation scales; narrow early stages and downsampling control computation. Global pooling and dropout limit the final classifier size and provide regularization.')
+    p('Each residual block has two 3 x 3 convolutions with batch normalization, a ReLU between them, and a ReLU after adding the shortcut. A 1 x 1 projection plus batch normalization aligns dimensions when stride or channels change. The last normalization scale in each residual branch starts at zero. Following the residual-learning principle [4], skip connections give gradients a shorter path; normalization stabilizes activation scales; narrow early stages and downsampling control computation. Global pooling and dropout limit the final classifier size and provide regularization.')
     if 'cnn' in compute and 'simple' in compute:
         p(f"SceneCNN has {compute['cnn']['parameters']/compute['simple']['parameters']:.2f} times the parameters of SimpleNet, while using {100*(1-compute['cnn']['macs']/compute['simple']['macs']):.1f}% fewer estimated forward MACs. Its larger channel capacity operates mostly on downsampled feature maps. This trades parameter storage for capacity while keeping the operation count modest; measured runtime also depends on the hardware and kernels.")
     p('The unchanged SimpleNet comparison uses three convolutional groups with bottleneck layers, ReLUs, max pooling, and global average pooling, without normalization or residual connections. The transfer-learning comparison replaces the ImageNet ResNet-18 head with a new 100-class linear layer and fine-tunes all parameters.')
@@ -111,7 +111,7 @@ def main():
     story.append(PageBreak())
 
     heading('Attention and ViT design')
-    p('The attention module maps channels jointly to Q, K, and V, splits into heads, computes softmax(QK<super>T</super>/sqrt(d)) across keys, weights V, concatenates heads, and applies an output projection. The channel count must divide evenly across heads. Numerical tests compare both output values and input gradients with PyTorch scaled-dot-product attention for one, two, and four heads.')
+    p('Following multi-head self-attention [3], the attention module maps channels jointly to Q, K, and V, splits into heads, computes softmax(QK<super>T</super>/sqrt(d)) across keys, weights V, concatenates heads, and applies an output projection. The channel count must divide evenly across heads. Numerical tests compare both output values and input gradients with PyTorch scaled-dot-product attention for one, two, and four heads.')
     table([
         ['Component','Chosen design'],
         ['Patch embedding','8 x 8 non-overlapping patches; 16 x 16 = 256 tokens; 192 channels'],
@@ -120,7 +120,7 @@ def main():
         ['Feed-forward layers','MLP expansion ratio 4, GELU; Pre-LN residual structure'],
         ['Regularization / output','Stochastic-depth rates linearly increase from 0 to 0.1; final normalization, mean token pooling, 100-class linear head']
     ],[135,373])
-    p('A local block attends to 16 tokens per window instead of all 256 tokens. Its attention matrix therefore has 16 times fewer token pairs than a global block at this input size; projection and MLP costs remain. Periodic global blocks connect otherwise separate windows. Learned positions are interpolated if the input grid changes.')
+    p('The model uses patch-token processing as in ViT [5], with the local/global block layout specified above. A local block attends to 16 tokens per window instead of all 256 tokens. Its attention matrix therefore has 16 times fewer token pairs than a global block at this input size; projection and MLP costs remain. Periodic global blocks connect otherwise separate windows. Learned positions are interpolated if the input grid changes.')
     if 'vit' in compute and 'cnn' in compute:
         p(f"Despite similar parameter counts, this ViT uses about {compute['vit']['macs']/compute['cnn']['macs']:.2f} times the estimated forward MACs of SceneCNN. The token projections and MLPs dominate its operation count. Local attention reduces the attention-matrix cost but does not remove those other costs.")
     p('SimpleViT consumes the shared TransformerBlock interface (B, H, W, C). The current pre-team scaffold implements Pre-LN attention and MLP residual branches, padded window partition/unpartition, and per-sample stochastic depth. Independent review and the one-point Transformer-block writeup belong to the teammate under the work plan. Existing passing tests make the interface usable for the classifier experiments; they do not establish that the teammate has already performed their review.')
