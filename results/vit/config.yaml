@@ -1,0 +1,51 @@
+model_type: VIT
+loader:
+  batch_size: 256
+  num_workers: 2
+model:
+  patch_size: 8
+  embed_dim: 192
+  depth: 6
+  num_heads: 4
+  window_size: 4
+  window_block_indexes:
+  - 0
+  - 1
+  - 3
+  - 4
+  drop_path_rate: 0.1
+  num_classes: 100
+opt:
+  type: AdamW
+  epochs: 40
+  weight_decay: 0.05
+  learning_rate: 0.001
+  momentum: 0.9
+  warmup: true
+  warmup_epochs: 1
+  schedule_type: cosine
+  schedule_steps: []
+  schedule_gamma: 0.1
+output_folder: ../logs
+dataset:
+  root_folder: ../data
+  name: MiniPlaces
+  train: train
+  test: val
+seed: 771
+devices:
+- cuda:0
+dtype: fp16
+input:
+  img_min_size: 144
+  img_crop_size: 128
+  img_color_jitter: 0.15
+  img_rotation: 15
+  img_mean:
+  - 0.485
+  - 0.456
+  - 0.406
+  img_std:
+  - 0.229
+  - 0.224
+  - 0.225

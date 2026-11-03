@@ -1,0 +1,6 @@
+{
+  "device": "cuda:0",
+  "wall_seconds_this_invocation": 7853.765254974365,
+  "experiment": "vit",
+  "seed": 771
+}

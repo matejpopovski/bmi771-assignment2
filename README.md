@@ -29,24 +29,49 @@ python code/run_experiments.py --device cuda:0 --experiments simple cnn vit resn
 python code/run_experiments.py --device cuda:0 --experiments fcos --reference
 ```
 
+[Open the classifier Colab notebook](https://colab.research.google.com/github/matejpopovski/bmi771-assignment2/blob/main/code/classification_colab.ipynb)
+for a GPU setup, training, and results-download workflow. Select a T4 runtime.
+
 Mac GPU: replace `cuda:0` with `mps`. The runner saves actual runtime settings in
 `results/<experiment>/config.yaml`, resumes checkpoints, and collects final
 artifacts. See [code/README.txt](code/README.txt) for evaluation and bonus commands.
 
-## Results and submission
+## Verified classifier results
 
-Measured small artifacts live under `results/`. Final trained weights will be
-attached to a repository release when verified. Datasets, local environments,
-intermediate checkpoints, and prediction dumps are excluded from Git.
-The original assignment distribution remains the source for course materials.
+| Model | Top-1 | Top-5 |
+| --- | ---: | ---: |
+| SimpleNet baseline | 43.43% | 72.49% |
+| SceneCNN | 48.74% | 77.60% |
+| Local/global ViT | 45.12% | 74.61% |
+| ImageNet ResNet-18 | 56.45% | 83.81% |
 
-The classifier report is Matej's deliverable. The combined team report remains
-a draft until the teammate verifies their work and both members confirm actual
-contributions. A successful test suite alone does not establish trained accuracy.
+All four final checkpoints were independently re-evaluated on all 10,000
+MiniPlaces validation images. Top-1 and top-5 exactly matched the primary
+measurements. The local and Colab test suites each pass all 30 tests.
+
+- [Classification report](writeup/matej_classification.pdf)
+- [Artifact audit and checkpoint hashes](results/classification_audit.json)
+- [Download the component ZIP and trained weights](https://github.com/matejpopovski/bmi771-assignment2/releases/tag/classification-v1)
+- [Reproduction and verification instructions](code/CLASSIFICATION_README.txt)
+
+To restore the exact weights after cloning, run
+`python code/fetch_classification_weights.py`. To audit them, run
+`python code/verify_classification.py`. The release component ZIP already contains
+code, the classifier report, and all four classifier checkpoints/configs/logs.
+
+The six-point classification component is prepared for Matej with AI assistance.
+The teammate's Transformer-block review and FCOS experiments, the actual team
+contribution statement, and the combined report remain to be completed and
+cross-reviewed. **The classification ZIP is not the finished Canvas submission.**
+
+## Team submission
 
 The final Canvas archive must contain only `code/`, `writeup/`, and `results/`.
 Every team member submits the same finished archive. `code/package_submission.py`
-automatically checks the required artifacts before producing `submission.zip`.
+checks the full team artifacts before producing `submission.zip`.
+Datasets, intermediate checkpoints, and local environments are excluded from Git.
+The original assignment release remains the source for course materials and the
+instructor's reference checkpoint.
 
 No new license is asserted over instructor-provided or third-party source;
 existing attribution and copyright notices are preserved.

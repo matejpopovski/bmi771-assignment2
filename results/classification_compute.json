@@ -1,0 +1,47 @@
+{
+  "input_shape": [
+    1,
+    3,
+    128,
+    128
+  ],
+  "method": "One MAC is one multiply-accumulate. Counts Conv2d, Linear, QK^T and attention-times-V; excludes normalization, nonlinearities, softmax, pooling, bias and residual additions. This is an operation estimate, not measured runtime.",
+  "models": {
+    "simple": {
+      "parameters": 365028,
+      "macs": 160221184,
+      "components": {
+        "convolution": 160169984,
+        "linear": 51200,
+        "attention_products": 0
+      }
+    },
+    "cnn": {
+      "parameters": 2821828,
+      "macs": 143025152,
+      "components": {
+        "convolution": 142999552,
+        "linear": 25600,
+        "attention_products": 0
+      }
+    },
+    "vit": {
+      "parameters": 2775076,
+      "macs": 745556736,
+      "components": {
+        "convolution": 9437184,
+        "linear": 679496448,
+        "attention_products": 56623104
+      }
+    },
+    "resnet18": {
+      "parameters": 11227812,
+      "macs": 592234496,
+      "components": {
+        "convolution": 592183296,
+        "linear": 51200,
+        "attention_products": 0
+      }
+    }
+  }
+}

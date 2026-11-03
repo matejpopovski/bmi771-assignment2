@@ -35,6 +35,9 @@ pipeline; the teammate maintains the detector experiment pipeline.
 - `main`: reviewed integration. Use pull requests; no force pushes.
 - Preserve existing function signatures and tensor layouts. `Attention` and
   `TransformerBlock` take/return `(batch, height, width, channels)`.
+- After changing `TransformerBlock`, run the shared tests and re-evaluate the
+  saved ViT checkpoint. Changes to parameter shapes or forward computation may
+  require coordinated retraining; agree on them before replacing the shared code.
 - Keep the current tested Transformer block available as shared initial
   scaffolding so classifier experiments are not blocked. The teammate owns its
   independent review, changes if needed, tests, and writeup. Do not rewrite a
@@ -78,3 +81,16 @@ requires its own measured results and writeup.
   course's applicable assistance/disclosure rules.
 - Teammate identity and GitHub access will be added by Matej later. The final
   contribution statement remains incomplete until both confirm their work.
+
+## Current handoff status - November 3, 2026
+
+Matej's six-point component has implementation, four completed classifier runs,
+final checkpoints, saved configurations/logs, full-data independent evaluations,
+and an artifact audit. All four top-1/top-5 results were reproduced exactly;
+30 tests pass locally and in Colab. The report and component archive are prepared
+with AI assistance for Matej's review. This does not claim that Matej has already
+completed his personal review or that the teammate has done their assigned work.
+
+The teammate's independent Transformer-block/FCOS review, trained detector
+results, report sections, and confirmed contributions are still outstanding.
+Cross-review and the final combined Canvas archive follow those deliverables.

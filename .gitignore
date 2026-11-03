@@ -23,3 +23,5 @@ eval_results.json
 writeup/report_draft.pdf
 results/submission_audit.json
 results/file_sha256.json
+
+writeup/*_draft.pdf

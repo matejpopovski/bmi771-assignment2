@@ -1,0 +1,37 @@
+{'dataset': {'name': 'MiniPlaces',
+             'root_folder': '../data',
+             'test': 'val',
+             'train': 'train'},
+ 'devices': ['mps'],
+ 'dtype': 'fp32',
+ 'input': {'img_color_jitter': 0.15,
+           'img_crop_size': 128,
+           'img_mean': [0.485, 0.456, 0.406],
+           'img_min_size': 144,
+           'img_rotation': 15,
+           'img_std': [0.229, 0.224, 0.225]},
+ 'loader': {'batch_size': 128, 'num_workers': 4},
+ 'model': {'num_classes': 100},
+ 'model_type': 'CNN',
+ 'opt': {'epochs': 40,
+         'learning_rate': 0.1,
+         'momentum': 0.9,
+         'schedule_gamma': 0.1,
+         'schedule_steps': [],
+         'schedule_type': 'cosine',
+         'type': 'SGD',
+         'warmup': True,
+         'warmup_epochs': 1,
+         'weight_decay': 0.0001},
+ 'output_folder': '../logs',
+ 'seed': 771}
+=> loading checkpoint '/Users/matejpopovski/Desktop/matej/MASTERS/Semester3/BMI771/assignment2/logs/cls_miniplaces_cnn_run_assignment2/model_final.pth.tar'
+Test: [10/79]	Time 0.010 (0.462)	Acc@1 46.88 (49.50)	Acc@5 78.91 (79.69)
+Test: [20/79]	Time 0.010 (0.249)	Acc@1 46.09 (48.36)	Acc@5 87.50 (78.50)
+Test: [30/79]	Time 0.021 (0.174)	Acc@1 54.69 (48.87)	Acc@5 83.59 (78.70)
+Test: [40/79]	Time 0.010 (0.135)	Acc@1 53.12 (48.57)	Acc@5 82.81 (78.01)
+Test: [50/79]	Time 0.021 (0.112)	Acc@1 49.22 (48.59)	Acc@5 79.69 (77.68)
+Test: [60/79]	Time 0.010 (0.096)	Acc@1 50.78 (48.76)	Acc@5 72.66 (77.60)
+Test: [70/79]	Time 0.021 (0.084)	Acc@1 42.19 (48.76)	Acc@5 81.25 (77.86)
+******Acc@1 48.740 Acc@5 77.600
+All done! Total time: 6.12 sec

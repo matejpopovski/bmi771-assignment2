@@ -1,0 +1,6 @@
+******Acc@1 43.430 Acc@5 72.490
+simple {"device": "mps", "torch": "2.15.0", "batch_size": 128, "metrics": {"top1": 43.43, "top5": 72.49, "num_images": 10000, "seconds": 7.051905155181885}, "difference_percentage_points": {"top1": 0.0, "top5": 0.0}, "checkpoint_sha256": "3fb5b089f6e0da735b237b19d152358ede0c8a5003239888112c43d8526fc02b"}
+******Acc@1 48.740 Acc@5 77.600
+cnn {"device": "mps", "torch": "2.15.0", "batch_size": 128, "metrics": {"top1": 48.74, "top5": 77.6, "num_images": 10000, "seconds": 7.122459888458252}, "difference_percentage_points": {"top1": 0.0, "top5": 0.0}, "checkpoint_sha256": "0f4c98a3e241014e50ae54acb2c2eac42e292e546710cd177d6bfb89a959150e"}
+******Acc@1 56.450 Acc@5 83.810
+resnet18 {"device": "mps", "torch": "2.15.0", "batch_size": 128, "metrics": {"top1": 56.45, "top5": 83.81, "num_images": 10000, "seconds": 8.225564241409302}, "difference_percentage_points": {"top1": 0.0, "top5": 0.0}, "checkpoint_sha256": "b3d13db1db3c8d46c34cd30c17ce02175be5e1a6dfe59115054b57cdf5262706"}
