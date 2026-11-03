@@ -62,7 +62,7 @@ def main():
         return yaml.safe_load(path.read_text()) if path.exists() else None
 
     p('Image classification:<br/>CNNs and a vision Transformer', 'MainTitle')
-    p('BMI / CS 771 Assignment 2 — classification contribution prepared for Matej Popovski')
+    p('BMI / CS 771 Assignment 2 - classification contribution prepared for Matej Popovski')
     if not complete:
         p('<b>DRAFT: classifier experiments are still incomplete. No pending value is a measured result.</b>')
     heading('Scope and evaluation protocol')
@@ -147,11 +147,14 @@ def main():
             rows.append([NAMES[name],f"{h[-1]['train']['loss']:.3f}",f"{best['epoch']} / {best['val']['top1']:.2f}%",
                          f"{sum(row['train']['seconds'] for row in h)/60:.1f}",f"{item['metrics']['seconds']:.1f}"])
     table(rows,[145,75,120,85,83])
+    p('The best validation epoch is descriptive. Headline results use the final scheduled checkpoint for every model.', 'SmallCaption')
     if complete:
         for name in ORDER:
             h=history(name); gap=h[-1]['train']['top1']-h[-1]['val']['top1']
-            p(f"<b>{NAMES[name]}:</b> validation top-1 changes from {h[0]['val']['top1']:.2f}% after warmup to {h[-1]['val']['top1']:.2f}% at the final epoch. The final training-minus-validation accuracy gap is {gap:+.2f} points. The table's best epoch is descriptive; its checkpoint does not replace the final model in the headline results.")
-    p('Train minutes sum measured training loops and exclude validation and setup. Evaluation seconds cover the full validation loader and model inference. SimpleNet, SceneCNN, and ResNet-18 run on an Apple M3 Max with 30 GPU cores and 36 GB unified memory (FP32); ViT runs on a Colab Tesla T4 (mixed FP16 training). Timing is not a controlled cross-device speed benchmark. Pretrained ResNet-18 also benefits from an external supervised dataset and a shorter fine-tuning schedule.')
+            p(f"<b>{NAMES[name]}:</b> validation top-1 changes from {h[0]['val']['top1']:.2f}% after warmup to {h[-1]['val']['top1']:.2f}% at the final epoch. The final training-minus-validation accuracy gap is {gap:+.2f} points.")
+        p('SceneCNN gives the highest measured accuracy among the models trained from scratch. Compared with this ViT configuration, it also uses fewer estimated forward MACs, giving the better observed accuracy/computation tradeoff. The training-versus-validation gaps reflect both model fitting and differences in augmentation/dropout; they are not isolated estimates of overfitting.')
+    p('Train minutes sum measured training loops and exclude validation and setup. Evaluation seconds cover the full validation loader and model inference. SimpleNet, SceneCNN, and ResNet-18 run on an Apple M3 Max with 30 GPU cores and 36 GB unified memory (FP32); ViT runs on a Colab Tesla T4 (mixed FP16 training). These timings do not control cache warmup or equalize devices, so they are descriptive rather than a controlled speed benchmark. Pretrained ResNet-18 also benefits from an external supervised dataset and a shorter fine-tuning schedule.')
+    story.append(PageBreak())
     heading('Verification and reproducibility')
     p('The classifier audit checks all four final epoch numbers, complete histories, full validation counts, agreement between final-epoch and checkpoint evaluation, finite weights/metrics, TensorBoard files, and strict checkpoint loading against the saved model configuration. Reloaded models also produce finite 100-class outputs. Evaluation requires no initialization-weight download. SHA-256 digests identify the exact final checkpoints in results/classification_audit.json.')
     if complete:
@@ -164,9 +167,7 @@ def main():
             lines=path.read_text().strip().splitlines()
             summary=next((line for line in reversed(lines) if 'passed' in line or 'failed' in line),lines[-1])
             p(f'{label} suite: '+escape(summary)+'.','SmallCaption')
-    p('Seeds and saved configurations support repetition of the procedure, but exact bitwise equality across devices, package versions, or resumed data loaders is not promised. The numerical/integration suite covers attention, window operations, stochastic depth, classifier forward/backward passes, optimizer coverage, and the shared detector scaffold. Tests establish implementation checks; measured validation establishes the reported accuracy.')
-    story.append(PageBreak())
-
+    p('Seeds and saved configurations support repetition of the procedure, but exact bitwise equality across devices, package versions, or resumed data loaders is not promised. Tests establish implementation checks; measured validation establishes the reported accuracy.')
     heading('Artifacts, integration, and sources')
     p('Each results/simple, results/cnn, results/vit, and results/resnet18 folder contains the final model checkpoint, resolved YAML configuration, training and evaluation logs, JSON epoch history, TensorBoard events, and metrics. Intermediate checkpoints and datasets are excluded from the contribution archive. The repository stores code and small artifacts; release assets hold the large trained weights.')
     p('Run from the assignment root: <font name="Courier" size="8">python code/verify_classification.py</font> to audit; <font name="Courier" size="8">python code/make_classification_report.py</font> to regenerate this PDF. Training uses <font name="Courier" size="8">python code/run_experiments.py --device cuda:0 --experiments simple cnn vit resnet18</font>. To reproduce the actual local device/batch choices, use the saved per-run configurations with train_cls.py from code/.')

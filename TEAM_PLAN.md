@@ -81,3 +81,16 @@ requires its own measured results and writeup.
   course's applicable assistance/disclosure rules.
 - Teammate identity and GitHub access will be added by Matej later. The final
   contribution statement remains incomplete until both confirm their work.
+
+## Current handoff status - November 3, 2026
+
+Matej's six-point component has implementation, four completed classifier runs,
+final checkpoints, saved configurations/logs, full-data independent evaluations,
+and an artifact audit. All four top-1/top-5 results were reproduced exactly;
+30 tests pass locally and in Colab. The report and component archive are prepared
+with AI assistance for Matej's review. This does not claim that Matej has already
+completed his personal review or that the teammate has done their assigned work.
+
+The teammate's independent Transformer-block/FCOS review, trained detector
+results, report sections, and confirmed contributions are still outstanding.
+Cross-review and the final combined Canvas archive follow those deliverables.

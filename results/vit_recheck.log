@@ -1,0 +1,2 @@
+******Acc@1 45.120 Acc@5 74.610
+vit {"device": "mps", "torch": "2.15.0", "batch_size": 128, "metrics": {"top1": 45.12, "top5": 74.61, "num_images": 10000, "seconds": 13.021770715713501}, "difference_percentage_points": {"top1": 0.0, "top5": 0.0}, "checkpoint_sha256": "a3b8fa4ac27d63b4639413e0a9bd23b305db4a38d98a4e4c8fcf462870c39a2d"}

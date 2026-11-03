@@ -1,0 +1,7 @@
+{
+  "top1": 45.12,
+  "top5": 74.61,
+  "num_images": 10000,
+  "seconds": 12.950289964675903,
+  "flip_augmentation": false
+}

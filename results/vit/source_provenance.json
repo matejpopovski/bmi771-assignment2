@@ -1,0 +1,21 @@
+{
+  "training_commit": "4500dafe6b3f77caa9d01792e869d229f96f7ec9",
+  "verification_commit": "6bb64446402ade27edd872595f5dc5c9f910d33d",
+  "training_code_unchanged": true,
+  "torch": "2.11.0+cu130",
+  "gpu": "Tesla T4",
+  "source_sha256": {
+    "code/cls_libs/__init__.py": "2a3f8b8c56507db2a5e3e643a5a3e6774569c285262d67a36d71d46c481edcc1",
+    "code/cls_libs/blocks.py": "257e2a60ed6c81006a75b4542dfcdd14dfb2371ce4bb752790a1df079ab0e956",
+    "code/cls_libs/config.py": "b99c8926fc6d38990af28a9f0a4bd67c36ef8d14638c48220165083b844329d3",
+    "code/cls_libs/dataset.py": "3b5d384404ceb87406c00f5ae67df9aabb106341a58184947dd6c7fa09c82beb",
+    "code/cls_libs/engine.py": "a1a7464f2016a55c818ef6bdfdc1202aaa64dabf966b8fc54994b7d72f0c7b04",
+    "code/cls_libs/lr_scheduler.py": "9426750c4b90f7828eee5a4655a23b72c3b95e7a89e7ef32b5e73fbedebbb30a",
+    "code/cls_libs/modeling.py": "e236fadc23a9c80f41882b2110ee7bca82cbe528a99aa143efcbb01fe47ba1ed",
+    "code/cls_libs/transforms.py": "95b5c83e94e4c60ba4270419cfb81777b66c7c1451c5bee9237b4155fcbdb4d8",
+    "code/cls_libs/utils.py": "de9bdcac63b73ef6bb86a36cd5c50031bc50c2f0f789a2e1f477746dd23170b3",
+    "code/configs/cls_miniplaces_vit.yaml": "bf75090d7b0dc7f4a2ac0d3a9de963981b871750e991216a89f33d558212b916",
+    "code/runtime_utils.py": "f7b00e5528e89a680b652a8d36476043c915fb852ddbab772d853243d5f43ee3",
+    "code/train_cls.py": "92bd7225e5d46d255ab0f2f6aeeed27d16bf39bf6369a091e2496444f56938a2"
+  }
+}

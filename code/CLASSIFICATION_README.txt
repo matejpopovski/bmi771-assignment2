@@ -28,8 +28,8 @@ From the assignment root:
 
 If cloning Git rather than extracting the component ZIP, restore release weights:
   python code/fetch_classification_weights.py
-It checks each checkpoint's SHA-256 against the audited record. The release must
-be published and the repository updated to the completed contribution first.
+It checks each checkpoint's SHA-256 against the audited record.
+Release: https://github.com/matejpopovski/bmi771-assignment2/releases/tag/classification-v1
 
 To evaluate from code/ on a CUDA GPU, preserving the original measurements:
   python eval_cls.py ../results/cnn/config.yaml ../results/cnn/ --device cuda:0 --metrics-output ../results/cnn/recheck_cuda.json
