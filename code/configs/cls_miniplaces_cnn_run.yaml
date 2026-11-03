@@ -1,0 +1,14 @@
+model_type: CNN
+loader:
+  batch_size: 128
+  num_workers: 4
+opt:
+  epochs: 40
+  learning_rate: 0.1
+output_folder: ../logs
+dataset:
+  root_folder: ../data
+seed: 771
+devices:
+- mps
+dtype: fp32

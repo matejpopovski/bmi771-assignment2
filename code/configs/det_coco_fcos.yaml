@@ -1,0 +1,18 @@
+output_folder: ../logs
+seed: 771
+dataset:
+  name: COCO2017
+  train: train2017_subset
+  test: val2017_subset
+  img_folder: ../data/coco/images
+  json_folder: ../data/coco
+loader:
+  batch_size: 16
+  num_workers: 2
+model:
+  num_classes: 80
+  fpn_feats_dim: 128
+opt:
+  learning_rate: 0.01
+  epochs: 4
+  warmup_epochs: 1

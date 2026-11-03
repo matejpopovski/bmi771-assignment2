@@ -1,0 +1,11 @@
+model_type: RESNET18
+loader:
+  batch_size: 128
+  num_workers: 4
+opt:
+  epochs: 15
+  learning_rate: 0.01
+output_folder: ../logs
+dataset:
+  root_folder: ../data
+seed: 771

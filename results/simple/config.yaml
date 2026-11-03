@@ -1,0 +1,40 @@
+model_type: SIMPLENET
+loader:
+  batch_size: 128
+  num_workers: 4
+opt:
+  epochs: 40
+  learning_rate: 0.1
+  type: SGD
+  momentum: 0.9
+  weight_decay: 0.0001
+  warmup: true
+  warmup_epochs: 1
+  schedule_type: cosine
+  schedule_steps: []
+  schedule_gamma: 0.1
+output_folder: ../logs
+dataset:
+  root_folder: ../data
+  name: MiniPlaces
+  train: train
+  test: val
+seed: 771
+devices:
+- mps
+dtype: fp32
+input:
+  img_min_size: 144
+  img_crop_size: 128
+  img_color_jitter: 0.15
+  img_rotation: 15
+  img_mean:
+  - 0.485
+  - 0.456
+  - 0.406
+  img_std:
+  - 0.229
+  - 0.224
+  - 0.225
+model:
+  num_classes: 100

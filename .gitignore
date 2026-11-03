@@ -1,0 +1,25 @@
+# Inputs, environments, transient jobs, and local-only planning messages
+.venv/
+data/
+/logs/
+pretrained/
+tmp/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.DS_Store
+*.zip
+*.partial
+.env
+.env.*
+readme.pdf
+TEAMMATE_MESSAGE.txt
+# Large trained weights and prediction dumps are distributed as release assets.
+*.pth
+*.pth.tar
+*.pt
+eval_results.json
+# Generated draft status is not a finished team submission.
+writeup/report_draft.pdf
+results/submission_audit.json
+results/file_sha256.json

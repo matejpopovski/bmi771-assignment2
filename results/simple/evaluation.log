@@ -1,0 +1,37 @@
+{'dataset': {'name': 'MiniPlaces',
+             'root_folder': '../data',
+             'test': 'val',
+             'train': 'train'},
+ 'devices': ['mps'],
+ 'dtype': 'fp32',
+ 'input': {'img_color_jitter': 0.15,
+           'img_crop_size': 128,
+           'img_mean': [0.485, 0.456, 0.406],
+           'img_min_size': 144,
+           'img_rotation': 15,
+           'img_std': [0.229, 0.224, 0.225]},
+ 'loader': {'batch_size': 128, 'num_workers': 4},
+ 'model': {'num_classes': 100},
+ 'model_type': 'SIMPLENET',
+ 'opt': {'epochs': 40,
+         'learning_rate': 0.1,
+         'momentum': 0.9,
+         'schedule_gamma': 0.1,
+         'schedule_steps': [],
+         'schedule_type': 'cosine',
+         'type': 'SGD',
+         'warmup': True,
+         'warmup_epochs': 1,
+         'weight_decay': 0.0001},
+ 'output_folder': '../logs',
+ 'seed': 771}
+=> loading checkpoint '/Users/matejpopovski/Desktop/matej/MASTERS/Semester3/BMI771/assignment2/logs/cls_miniplaces_simple_run_assignment2/model_final.pth.tar'
+Test: [10/79]	Time 0.017 (1.189)	Acc@1 42.97 (45.24)	Acc@5 72.66 (74.50)
+Test: [20/79]	Time 0.017 (0.635)	Acc@1 46.09 (43.19)	Acc@5 78.12 (73.40)
+Test: [30/79]	Time 0.017 (0.439)	Acc@1 53.12 (43.80)	Acc@5 75.00 (73.44)
+Test: [40/79]	Time 0.017 (0.338)	Acc@1 44.53 (43.67)	Acc@5 76.56 (72.92)
+Test: [50/79]	Time 0.035 (0.278)	Acc@1 38.28 (43.24)	Acc@5 70.31 (72.73)
+Test: [60/79]	Time 0.017 (0.237)	Acc@1 43.75 (43.65)	Acc@5 74.22 (72.76)
+Test: [70/79]	Time 0.034 (0.207)	Acc@1 40.62 (43.61)	Acc@5 72.66 (72.69)
+******Acc@1 43.430 Acc@5 72.490
+All done! Total time: 14.85 sec

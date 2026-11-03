@@ -1,0 +1,34 @@
+{
+  "miniplaces_train": {
+    "images": 100000,
+    "classes": 100,
+    "label_range": [
+      0,
+      99
+    ],
+    "missing_images": 0
+  },
+  "miniplaces_val": {
+    "images": 10000,
+    "classes": 100,
+    "label_range": [
+      0,
+      99
+    ],
+    "missing_images": 0
+  },
+  "voc_trainval": {
+    "images": 5011,
+    "annotations": 15662,
+    "classes": 20,
+    "missing_images": 0
+  },
+  "voc_test": {
+    "images": 4952,
+    "annotations": 14976,
+    "classes": 20,
+    "missing_images": 0
+  },
+  "voc_split_image_filename_overlap": 0,
+  "voc_image_id_note": "Each JSON uses its own image-ID namespace; split disjointness is checked by image filename."
+}

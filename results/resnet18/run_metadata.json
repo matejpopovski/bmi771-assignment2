@@ -1,0 +1,6 @@
+{
+  "device": "mps",
+  "wall_seconds_this_invocation": 1417.7913987636566,
+  "experiment": "resnet18",
+  "seed": 771
+}

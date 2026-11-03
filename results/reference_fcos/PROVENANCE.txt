@@ -1,0 +1,1 @@
+Instructor-supplied reference FCOS checkpoint. Evaluated only; not trained by this team.
