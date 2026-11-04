@@ -9,5 +9,5 @@
       "contribution": "TransformerBlock review and FCOS inference/loss component; Colab T4 reference evaluation, detector training/evaluation, saved artifacts and detection analysis (6 required points)."
     }
   ],
-  "assistance": "The project builds on the assignment starter, with AI assistance in implementation, experiment orchestration, testing, analysis and report drafting. Existing starter code is not claimed as newly authored work."
+  "assistance": "AI tools assisted with implementation, experiments, verification, analysis and writing."
 }

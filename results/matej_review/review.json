@@ -118,8 +118,8 @@
   "final_report": {
     "path": "writeup/report.pdf",
     "pages": 10,
-    "sha256": "97e6516adb63b5b41d151f9357fae3068c6073fd8a3b703dee123085effeaebc",
-    "visual_review": "All ten pages rendered and inspected; updated pages 1 and 10 inspected again. No clipping, overlap, missing figures or unfinished sections."
+    "sha256": "96483921f28c9a6623fce74055087a05e278ee261d1f727c1767a71bdc7aec95",
+    "visual_review": "All ten pages rendered and inspected. After shortening the assistance acknowledgment, page 1 was rendered and inspected again; pages 2-10 have identical content streams. No clipping, overlap, missing figures or unfinished sections."
   },
   "final_test_count": 50,
   "final_test_log": "results/matej_review/final_tests.txt"
