@@ -4,6 +4,8 @@ Run from any directory: python code/run_experiments.py --device cuda:0
 All experiment paths in submitted configurations remain relative to code/.
 """
 import argparse
+from datetime import datetime, timezone
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -57,24 +59,69 @@ def collect(source, destination):
             shutil.copy2(path, destination / 'viz' / path.name)
 
 
+def file_hash(path):
+    digest = hashlib.sha256()
+    with open(path, 'rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def evaluate_reference(device, workers=2, force=False):
+    """Reuse only a measured run with matching code, checkpoint and settings.
+
+    Imported metrics without provenance must be reproduced. Archive their files
+    before writing a new config so old measurements never acquire a new device.
+    """
+    dest = ROOT / 'results' / 'reference_fcos'
+    dest.mkdir(parents=True, exist_ok=True)
+    source = ROOT / 'pretrained' / 'det_voc_res18.pth.tar'
+    config = yaml.safe_load((ROOT / 'pretrained' / 'det_voc_res18.yaml').read_text())
+    config['devices'] = [device]
+    config['loader'] = {'batch_size': 8, 'num_workers': workers}
+    import torch
+    import torchvision
+    signature = {
+        'checkpoint_sha256': file_hash(source), 'config': config,
+        'runtime': {'torch': str(torch.__version__), 'torchvision': str(torchvision.__version__),
+                    'gpu': torch.cuda.get_device_name(device) if device.startswith('cuda') else None},
+        'sources': {str(path.relative_to(CODE)): file_hash(path) for path in
+                    [CODE / 'eval_det.py', *sorted((CODE / 'det_libs').glob('*.py'))]},
+        'annotations_sha256': file_hash(ROOT / 'data' / 'test.json'),
+    }
+    record = dest / 'reference_run.json'
+    ckpt = dest / 'model_final.pth.tar'
+    if (not force and record.exists() and (dest / 'metrics.json').exists()
+            and ckpt.exists() and file_hash(ckpt) == signature['checkpoint_sha256']
+            and json.loads(record.read_text()) == signature):
+        print('ALREADY VERIFIED reference_fcos', flush=True)
+        return dest
+    previous = [path for path in dest.iterdir() if path.name != ckpt.name]
+    if previous:
+        stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
+        archive = ROOT / 'logs' / 'reference_fcos_previous' / stamp
+        archive.mkdir(parents=True)
+        for path in previous:
+            shutil.move(str(path), archive / path.name)
+        print('Preserved previous reference files:', archive, flush=True)
+    config_path = dest / 'config.yaml'
+    config_path.write_text(yaml.safe_dump(config, sort_keys=False))
+    if not ckpt.exists() or file_hash(ckpt) != signature['checkpoint_sha256']:
+        shutil.copy2(source, ckpt)
+    (dest / 'PROVENANCE.txt').write_text(
+        'Instructor-supplied reference checkpoint. Evaluated only; not trained by this team.\n'
+        f'SHA-256: {signature["checkpoint_sha256"]}\n')
+    run([sys.executable, '-u', 'eval_det.py', config_path, ckpt, '-v'], dest / 'evaluation.log')
+    record.write_text(json.dumps(signature, indent=2))
+    return dest
+
+
 def main(args):
     os.chdir(CODE)
     (ROOT / 'logs').mkdir(exist_ok=True)
     (ROOT / 'results').mkdir(exist_ok=True)
     if args.reference:
-        dest = ROOT / 'results' / 'reference_fcos'
-        dest.mkdir(exist_ok=True)
-        config = yaml.safe_load((ROOT / 'pretrained' / 'det_voc_res18.yaml').read_text())
-        config['devices'] = [args.device]
-        config['loader'] = {'batch_size': 8, 'num_workers': 2}
-        config_path = dest / 'config.yaml'
-        config_path.write_text(yaml.safe_dump(config, sort_keys=False))
-        ckpt = dest / 'model_final.pth.tar'
-        if not ckpt.exists():
-            shutil.copy2(ROOT / 'pretrained' / 'det_voc_res18.pth.tar', ckpt)
-        (dest / 'PROVENANCE.txt').write_text('Instructor-supplied reference checkpoint. Not a model trained by this team.\n')
-        if not (dest / 'metrics.json').exists():
-            run([sys.executable, '-u', 'eval_det.py', config_path, ckpt, '-v'], dest / 'evaluation.log')
+        evaluate_reference(args.device, args.workers, getattr(args, 'reference_force', False))
     for name in args.experiments:
         config_name, kind = EXPERIMENTS[name]
         config_path = CODE / 'configs' / (config_name + '.yaml')
@@ -118,6 +165,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--device', default='cuda:0')
     parser.add_argument('--workers', default=2, type=int)
-    parser.add_argument('--experiments', nargs='+', choices=list(EXPERIMENTS), default=['cnn','vit','simple','resnet18','fcos'])
+    parser.add_argument('--experiments', nargs='*', choices=list(EXPERIMENTS), default=['cnn','vit','simple','resnet18','fcos'])
     parser.add_argument('--reference', action='store_true')
+    parser.add_argument('--reference-force', action='store_true', help='repeat reference evaluation even if provenance matches')
     main(parser.parse_args())

@@ -9,8 +9,8 @@ interfaces, deliverables, review process, and optional balanced bonus plan.
 
 - **Matej:** custom CNN (2), comparison with SimpleNet/ResNet-18 (1), attention
   (1), and ViT design/training (2).
-- **Teammate:** local-attention Transformer block (1), FCOS inference (2), and
-  FCOS loss/training (3). Identity/access will be added later.
+- **Sean Chang (`seanchang1529`):** local-attention Transformer block (1), FCOS
+  inference (2), and FCOS loss/training (3).
 
 This repository includes starter code and AI-assisted work prepared before team
 formation. Planned ownership is not a completed contribution statement.
@@ -60,9 +60,35 @@ To restore the exact weights after cloning, run
 code, the classifier report, and all four classifier checkpoints/configs/logs.
 
 The six-point classification component is prepared for Matej with AI assistance.
-The teammate's Transformer-block review and FCOS experiments, the actual team
-contribution statement, and the combined report remain to be completed and
-cross-reviewed. **The classification ZIP is not the finished Canvas submission.**
+**The classification ZIP is not the finished Canvas submission.**
+
+## Verified detector component
+
+| Detector | AP50 | AP50:95 | Test images | Eval batch |
+| --- | ---: | ---: | ---: | ---: |
+| Instructor checkpoint (evaluation only) | 60.69% | 32.80% | 4,952 | 8 |
+| Independently trained FCOS | 60.52% | 32.42% | 4,952 | 32 |
+
+Sean ran the reviewed workflow on a Colab Tesla T4. Training used only VOC2007
+trainval: 3 warmup plus 12 cosine epochs, totaling 31.47 measured training-loop
+minutes. The final detector's synchronized model time is 83.60 seconds over the
+test set; the complete evaluation takes 158.02 seconds. Timing scopes and batch
+differences are documented in the report. Both checkpoint/config pairs load
+strictly; AP/AP50/AP75 are reproduced exactly from transferred predictions.
+The instructor weights remain identified and separate from the trained detector.
+
+- [Sean's component report](writeup/sean_detection.pdf) and [editable section](writeup/sean_detection.md)
+- [Detector artifact audit and hashes](results/detection_review/detector_audit.json)
+- [GPU workflow and reproduction](code/DETECTION_README.md)
+- [Team handoff and remaining integration](writeup/TEAM_HANDOFF.md)
+
+All 43 model/workflow cases pass locally and on Colab; the final local suite
+also includes a passing archive-selection test (44 total). TransformerBlock behavior/parameter
+shapes and Matej's classifier artifacts are unchanged. Preliminary model code
+was independently reviewed with AI assistance; Sean executed the cloud run and
+transferred the artifacts. Human understanding, both members' contribution
+confirmation, cross-review, the combined PDF and the final team ZIP remain
+integration steps. Neither component archive is the completed Canvas submission.
 
 ## Team submission
 

@@ -1,0 +1,109 @@
+{
+  "ready": true,
+  "scope": "required detection/Transformer component; personal and team review remain separate",
+  "errors": [],
+  "experiments": {
+    "reference_fcos": {
+      "checkpoint_sha256": "a5287528af113ffbe7c0d0cb530bf66faec4eff66b172c4e820be58fb3d8b928",
+      "epoch_zero_based": 14,
+      "strict_load": true,
+      "metrics": {
+        "AP": 0.3279551135987825,
+        "AP50": 0.6068679774850311,
+        "AP75": 0.31883556932228074,
+        "num_images": 4952,
+        "inference_seconds": 126.98987674713135,
+        "total_seconds": 177.70197653770447,
+        "images_per_second": 38.99523431982435,
+        "model_seconds": 102.6582980019989,
+        "model_images_per_second": 48.23769823169655,
+        "device": "cuda:0",
+        "torch": "2.11.0+cu130",
+        "gpu": "Tesla T4",
+        "visualizations": 12,
+        "timing_scope": {
+          "model_seconds": "Synchronized model forward including resize/normalize, decoding and NMS; cold first batch included",
+          "inference_seconds": "Whole data loop including loading, transfers, model, conversion and sample visualization writes",
+          "total_seconds": "Whole evaluation including prediction JSON and COCOeval"
+        }
+      },
+      "sample_images": [
+        "000001.png",
+        "000002.png",
+        "000003.png",
+        "000004.png",
+        "000005.png",
+        "000006.png",
+        "000007.png",
+        "000008.png",
+        "000009.png",
+        "000010.png",
+        "000011.png",
+        "000012.png"
+      ],
+      "prediction_recheck": {
+        "AP": 0.3279551135987825,
+        "AP50": 0.6068679774850311,
+        "AP75": 0.31883556932228074
+      },
+      "prediction_sha256": "740bf7266af93b3340727a6f3714e809f1b2f7061cc0f7609515e59154e53103",
+      "ground_truth_sha256": "f70f79b0e979328ecf2ae3638fbdb074813a1b713298a926ad2722f213173a90"
+    },
+    "fcos": {
+      "checkpoint_sha256": "601f945e96f6c4c97e481c057350fd8bd028d14894faadaa5d3e9886e88d8333",
+      "epoch_zero_based": 14,
+      "strict_load": true,
+      "metrics": {
+        "AP": 0.3242178815345688,
+        "AP50": 0.6051912747087238,
+        "AP75": 0.3151608965157446,
+        "num_images": 4952,
+        "inference_seconds": 108.22368907928467,
+        "total_seconds": 158.02055978775024,
+        "images_per_second": 45.75708000835348,
+        "model_seconds": 83.59904758300854,
+        "model_images_per_second": 59.23512459975072,
+        "device": "cuda:0",
+        "torch": "2.11.0+cu130",
+        "gpu": "Tesla T4",
+        "visualizations": 12,
+        "timing_scope": {
+          "model_seconds": "Synchronized model forward including resize/normalize, decoding and NMS; cold first batch included",
+          "inference_seconds": "Whole data loop including loading, transfers, model, conversion and sample visualization writes",
+          "total_seconds": "Whole evaluation including prediction JSON and COCOeval"
+        }
+      },
+      "sample_images": [
+        "000001.png",
+        "000002.png",
+        "000003.png",
+        "000004.png",
+        "000005.png",
+        "000006.png",
+        "000007.png",
+        "000008.png",
+        "000009.png",
+        "000010.png",
+        "000011.png",
+        "000012.png"
+      ],
+      "epochs": 15,
+      "training_seconds": 1888.0679004192352,
+      "initial_loss": 2.308088848988215,
+      "final_loss": 1.1013140697509816,
+      "tensorboard_scalar_counts": {
+        "cls_loss": 45,
+        "reg_loss": 45,
+        "ctr_loss": 45
+      },
+      "prediction_recheck": {
+        "AP": 0.3242178815345688,
+        "AP50": 0.6051912747087238,
+        "AP75": 0.3151608965157446
+      },
+      "prediction_sha256": "1475363f4975d7a9a6e90e4b3cda208d3c773f05f10080885383b5c331df1138",
+      "ground_truth_sha256": "f70f79b0e979328ecf2ae3638fbdb074813a1b713298a926ad2722f213173a90",
+      "floating_tensors_different_from_instructor": 146
+    }
+  }
+}

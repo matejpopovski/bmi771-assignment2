@@ -1,0 +1,17 @@
+{
+  "trainval": {
+    "images": 5011,
+    "annotations": 15662,
+    "categories": 20,
+    "images_checked": true,
+    "annotations_sha256": "f941b4b7cbb0709515ebf7670b2b54a178a7751e6baed1751a55a944314f375e"
+  },
+  "test": {
+    "images": 4952,
+    "annotations": 14976,
+    "categories": 20,
+    "images_checked": true,
+    "annotations_sha256": "f70f79b0e979328ecf2ae3638fbdb074813a1b713298a926ad2722f213173a90"
+  },
+  "split_filename_overlap": 0
+}

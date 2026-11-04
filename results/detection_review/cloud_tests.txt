@@ -1,0 +1,8 @@
+...........................................                              [100%]
+=============================== warnings summary ===============================
+code/tests/test_detection_review.py::test_evaluator_full_coverage_timing_and_visualization_without_printing[True]
+  /usr/local/lib/python3.13/dist-packages/torchvision/utils.py:352: UserWarning: boxes doesn't contain any box. No box was drawn
+    warnings.warn("boxes doesn't contain any box. No box was drawn")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+43 passed, 1 warning in 12.38s

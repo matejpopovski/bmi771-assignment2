@@ -1,0 +1,147 @@
+{'dataset': {'img_folder': '../data/VOCdevkit/VOC2007/JPEGImages',
+             'json_folder': '../data',
+             'name': 'VOC2007',
+             'test': 'test',
+             'train': 'trainval'},
+ 'devices': ['mps'],
+ 'dtype': 'fp32',
+ 'input': {'img_max_size': 640,
+           'img_mean': [0.485, 0.456, 0.406],
+           'img_min_size': [288, 320, 352, 384, 416, 448, 480],
+           'img_std': [0.229, 0.224, 0.225]},
+ 'loader': {'batch_size': 8, 'num_workers': 2},
+ 'model': {'backbone': 'resnet18',
+           'backbone_freeze_bn': False,
+           'backbone_out_feats': ['layer2', 'layer3', 'layer4'],
+           'backbone_out_feats_dims': [128, 256, 512],
+           'fpn_feats_dim': 128,
+           'fpn_strides': [8, 16, 32, 64, 128],
+           'img_max_size': 640,
+           'img_mean': [0.485, 0.456, 0.406],
+           'img_min_size': [288, 320, 352, 384, 416, 448, 480],
+           'img_std': [0.229, 0.224, 0.225],
+           'num_classes': 20,
+           'regression_range': [(0, 64),
+                                (64, 128),
+                                (128, 256),
+                                (256, 512),
+                                (512, 1000)],
+           'test_cfg': {'detections_per_img': 100,
+                        'nms_thresh': 0.6,
+                        'score_thresh': 0.1,
+                        'topk_candidates': 1000},
+           'train_cfg': {'center_sampling_radius': 1.5}},
+ 'model_name': 'FCOS',
+ 'opt': {'epochs': 12,
+         'learning_rate': 0.02,
+         'momentum': 0.9,
+         'schedule_gamma': 0.1,
+         'schedule_steps': [],
+         'schedule_type': 'cosine',
+         'type': 'SGD',
+         'warmup': True,
+         'warmup_epochs': 3,
+         'weight_decay': 0.0001},
+ 'output_folder': '../logs',
+ 'test_cfg': {'detections_per_img': 100,
+              'nms_thresh': 0.6,
+              'score_thresh': 0.1,
+              'topk_candidates': 1000},
+ 'train_cfg': {'center_sampling_radius': 1.5}}
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+=> loading checkpoint '../results/detection_review/reference_mps/model_final.pth.tar'
+Loading model ...
+
+Start testing ...
+/Users/seanchang/Downloads/bmi771-assignment2/.venv/lib/python3.12/site-packages/torchvision/utils.py:352: UserWarning: boxes doesn't contain any box. No box was drawn
+  warnings.warn("boxes doesn't contain any box. No box was drawn")
+Test: [00010/00619]	Time 1.01 (1.01)
+Test: [00020/00619]	Time 0.27 (0.64)
+Test: [00030/00619]	Time 0.24 (0.51)
+Test: [00040/00619]	Time 0.26 (0.45)
+Test: [00050/00619]	Time 0.23 (0.40)
+Test: [00060/00619]	Time 0.24 (0.38)
+Test: [00070/00619]	Time 0.24 (0.36)
+Test: [00080/00619]	Time 0.24 (0.34)
+Test: [00090/00619]	Time 0.24 (0.33)
+Test: [00100/00619]	Time 0.24 (0.32)
+Test: [00110/00619]	Time 0.24 (0.31)
+Test: [00120/00619]	Time 0.24 (0.31)
+Test: [00130/00619]	Time 0.24 (0.30)
+Test: [00140/00619]	Time 0.23 (0.30)
+Test: [00150/00619]	Time 0.24 (0.29)
+Test: [00160/00619]	Time 0.25 (0.29)
+Test: [00170/00619]	Time 0.24 (0.29)
+Test: [00180/00619]	Time 0.25 (0.29)
+Test: [00190/00619]	Time 0.24 (0.28)
+Test: [00200/00619]	Time 0.25 (0.28)
+Test: [00210/00619]	Time 0.24 (0.28)
+Test: [00220/00619]	Time 0.24 (0.28)
+Test: [00230/00619]	Time 0.24 (0.28)
+Test: [00240/00619]	Time 0.25 (0.28)
+Test: [00250/00619]	Time 0.24 (0.27)
+Test: [00260/00619]	Time 0.24 (0.27)
+Test: [00270/00619]	Time 0.24 (0.27)
+Test: [00280/00619]	Time 0.25 (0.27)
+Test: [00290/00619]	Time 0.23 (0.27)
+Test: [00300/00619]	Time 0.24 (0.27)
+Test: [00310/00619]	Time 0.24 (0.27)
+Test: [00320/00619]	Time 0.23 (0.27)
+Test: [00330/00619]	Time 0.24 (0.27)
+Test: [00340/00619]	Time 0.24 (0.26)
+Test: [00350/00619]	Time 0.24 (0.26)
+Test: [00360/00619]	Time 0.23 (0.26)
+Test: [00370/00619]	Time 0.23 (0.26)
+Test: [00380/00619]	Time 0.24 (0.26)
+Test: [00390/00619]	Time 0.23 (0.26)
+Test: [00400/00619]	Time 0.23 (0.26)
+Test: [00410/00619]	Time 0.26 (0.26)
+Test: [00420/00619]	Time 0.23 (0.26)
+Test: [00430/00619]	Time 0.24 (0.26)
+Test: [00440/00619]	Time 0.24 (0.26)
+Test: [00450/00619]	Time 0.23 (0.26)
+Test: [00460/00619]	Time 0.24 (0.26)
+Test: [00470/00619]	Time 0.24 (0.26)
+Test: [00480/00619]	Time 0.24 (0.26)
+Test: [00490/00619]	Time 0.24 (0.26)
+Test: [00500/00619]	Time 0.24 (0.26)
+Test: [00510/00619]	Time 0.23 (0.26)
+Test: [00520/00619]	Time 0.24 (0.26)
+Test: [00530/00619]	Time 0.24 (0.26)
+Test: [00540/00619]	Time 0.24 (0.26)
+Test: [00550/00619]	Time 0.22 (0.25)
+Test: [00560/00619]	Time 0.24 (0.25)
+Test: [00570/00619]	Time 0.25 (0.25)
+Test: [00580/00619]	Time 0.24 (0.25)
+Test: [00590/00619]	Time 0.25 (0.25)
+Test: [00600/00619]	Time 0.24 (0.25)
+Test: [00610/00619]	Time 0.22 (0.25)
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+Loading and preparing results...
+DONE (t=1.69s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=10.70s).
+Accumulating evaluation results...
+DONE (t=4.30s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.328
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.607
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.319
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.076
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.200
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.404
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.317
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.498
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.535
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.203
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.438
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.616
+All done! Total time: 176.68 sec

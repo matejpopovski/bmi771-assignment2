@@ -12,11 +12,15 @@ def save_checkpoint(state, is_final, file_folder, file_name="checkpoint.pth.tar"
     """save checkpoint to file"""
     if not os.path.exists(file_folder):
         os.mkdir(file_folder)
-    torch.save(state, os.path.join(file_folder, file_name))
+    destination = os.path.join(file_folder, file_name)
+    torch.save(state, destination + '.partial')
+    os.replace(destination + '.partial', destination)
     if is_final:
         # skip the optimization / scheduler state
         state = {k: v for k, v in state.items() if k not in ("optimizer", "scheduler")}
-        torch.save(state, os.path.join(file_folder, "model_final.pth.tar"))
+        destination = os.path.join(file_folder, "model_final.pth.tar")
+        torch.save(state, destination + '.partial')
+        os.replace(destination + '.partial', destination)
 
 
 def build_optimizer(model, optimizer_config):

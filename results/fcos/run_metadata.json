@@ -1,0 +1,6 @@
+{
+  "device": "cuda:0",
+  "wall_seconds_this_invocation": 1907.2139101028442,
+  "experiment": "fcos",
+  "seed": 771
+}

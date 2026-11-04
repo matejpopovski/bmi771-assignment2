@@ -1,0 +1,10 @@
+{
+  "git_commit": "34d0e0c539575eb43bb0a177e61e610de919760a",
+  "gpu": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "python": "3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]",
+  "started_utc": "2026-11-04T03:45:41.726490+00:00",
+  "backup": "/content/drive/MyDrive/BMI771_Assignment2/detection_artifacts",
+  "training_split": "VOC2007 trainval",
+  "evaluation_split": "VOC2007 test (4952 images)"
+}

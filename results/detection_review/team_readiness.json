@@ -1,0 +1,9 @@
+{
+  "ready": false,
+  "include_bonus": false,
+  "errors": [
+    "Factual team roster/contributions are missing",
+    "Final writeup/report.pdf is missing"
+  ],
+  "note": "All experiment artifacts pass the current packager audit. Final team PDF and confirmed contributions must be supplied before generating the Canvas ZIP."
+}

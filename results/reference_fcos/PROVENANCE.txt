@@ -1,1 +1,2 @@
-Instructor-supplied reference FCOS checkpoint. Evaluated only; not trained by this team.
+Instructor-supplied reference checkpoint. Evaluated only; not trained by this team.
+SHA-256: a5287528af113ffbe7c0d0cb530bf66faec4eff66b172c4e820be58fb3d8b928
