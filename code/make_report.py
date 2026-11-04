@@ -197,7 +197,7 @@ def main():
     story.append(PageBreak())
     heading('6. VOC detection results')
     rows=[['Detector','AP50','AP50:95','Inference seconds','Images / second']]
-    for name in ['reference_fcos','fcos','swin']:
+    for name in ['reference_fcos','fcos'] + (['swin'] if metrics['swin'] else []):
         m=metrics[name]
         rows.append([NAMES[name],f"{100*m['AP50']:.2f}%" if m else 'Pending',f"{100*m['AP']:.2f}%" if m else 'Pending',
                      f"{m['inference_seconds']:.1f}" if m else 'Pending',f"{m['images_per_second']:.1f}" if m else 'Pending'])
@@ -221,12 +221,12 @@ def main():
     fig('swin_losses.png','Figure 6. Swin-T detector training losses, if the bonus run has completed.')
     if metrics['swin']:
         p(f'The Swin detector achieves {100*metrics["swin"]["AP50"]:.2f}% AP50 on the full VOC test set. Its schedule and input resolution differ from the main ResNet-18 run, so the comparison does not isolate the backbone alone.')
-    else: p('<b>Swin experiment status:</b> implementation is present; training curves and measured evaluation are still pending. This is not a completed bonus claim.')
+    else: p('<b>Swin experiment status:</b> implementation scaffolding only; no measured bonus experiment is claimed.')
     p('<b>COCO subset feasibility.</b> The preparation script samples 5,000 images uniformly without replacement from official train2017 and 1,000 images independently from val2017 using seed 771. It downloads only those images and keeps their official bounding-box annotations. Sparse category IDs are remapped to contiguous IDs 1..80 in both annotation files; the mapping is saved in a manifest. Model labels are 0..79 internally, and inference restores 1..80 for this remapped evaluation dataset. Crowd annotations are excluded from training targets, while pycocotools retains their evaluation behavior. The model is ResNet-18 FCOS with 128-channel FPN features, batch size 16, SGD lr 0.01, and 1 warmup plus 4 cosine epochs.')
     if metrics['coco']:
         m=metrics['coco'];h=history('coco')
         p(f'On the held-out {m["num_images"]:,}-image COCO subset, AP50:95 is {100*m["AP"]:.2f}%, AP50 is {100*m["AP50"]:.2f}%, and inference throughput is {m["images_per_second"]:.1f} images/second. Training takes {sum(r["train"]["seconds"] for r in h)/60:.1f} minutes. These subset results demonstrate feasibility and are not full COCO benchmark scores.')
-    else: p('<b>COCO experiment status:</b> implementation and preparation procedure are present; measured training/evaluation results are still pending. This is not a completed bonus claim.')
+    else: p('<b>COCO experiment status:</b> implementation scaffolding only; no measured bonus experiment is claimed.')
     fig('coco_losses.png','Figure 7. COCO subset training losses, if available.')
     story.append(PageBreak())
     heading('9. Verification and reproducibility')

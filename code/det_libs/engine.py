@@ -123,6 +123,7 @@ def evaluate(
     print_freq=10,
     viz=False,
     viz_box_thr=0.5,
+    viz_limit=12,
 ):
     """Test the model on the validation set"""
     # an output file will be used to save all results
@@ -146,17 +147,28 @@ def evaluate(
     evaluation_start = time.time()
     start = time.time()
     det_results = []
+    evaluated_ids = []
+    model_seconds = 0.0
+    visualized = 0
     for iter_idx, data in enumerate(val_loader, 0):
         imgs, targets = data
         imgs_device = list(img.to(device) for img in imgs)
-        # forward the model (wo. grad)
+        # Synchronize both sides: measure transforms/backbone/heads/decode/NMS,
+        # excluding data loading, host transfers, drawing, and COCO evaluation.
+        synchronize(device)
+        model_start = time.perf_counter()
         with torch.no_grad():
             outputs = model(imgs_device, None)
+        synchronize(device)
+        model_seconds += time.perf_counter() - model_start
+        if len(outputs) != len(targets):
+            raise ValueError('Detector output count differs from the batch size')
 
         # unpack the results
         outputs = [{k: v.to(cpu_device) for k, v in t.items()} for t in outputs]
         for target, output in zip(targets, outputs):
             image_id = target["image_id"].item()
+            evaluated_ids.append(image_id)
             boxes = convert_to_xywh(output["boxes"]).tolist()
             scores = output["scores"].tolist()
             labels = output["labels"].tolist()
@@ -170,16 +182,11 @@ def evaluate(
                     }
                 )
 
-        # printing
-        if (iter_idx != 0) and print_freq > 0 and iter_idx % (print_freq) == 0:
-            # measure elapsed time (after sync all kernels)
-            synchronize(device)
-            batch_time.update((time.time() - start) / print_freq)
-            start = time.time()
-
-            if viz:
-                # visualize the detection results
-                for img, target, output in zip(imgs, targets, outputs):
+        if viz:
+            # A fixed first-N selection is independent of logging frequency and
+            # identical for the reference and independently trained detector.
+            for img, target, output in zip(imgs, targets, outputs):
+                if visualized < viz_limit:
                     # select boxes with confidence scores larger than a threshold
                     box_inds = (output["scores"]>=viz_box_thr)
                     boxes = output["boxes"][box_inds]
@@ -205,7 +212,13 @@ def evaluate(
                         viz_img.to(torch.float) / 255,
                         os.path.join(viz_folder,"{:06d}.png".format(image_id))
                     )
+                    visualized += 1
 
+        # printing
+        if (iter_idx != 0) and print_freq > 0 and iter_idx % (print_freq) == 0:
+            synchronize(device)
+            batch_time.update((time.time() - start) / print_freq)
+            start = time.time()
             # print timing
             print(
                 "Test: [{0:05d}/{1:05d}]\t"
@@ -216,6 +229,9 @@ def evaluate(
 
     synchronize(device)
     inference_seconds = time.time() - evaluation_start
+    if (len(evaluated_ids) != len(val_loader.dataset)
+            or len(set(evaluated_ids)) != len(evaluated_ids)):
+        raise ValueError('Evaluation must visit every dataset image exactly once')
 
     # save results to json file
     with open(output_file, "w") as outfile:
@@ -223,6 +239,8 @@ def evaluate(
 
     # use COCO API for evaluation
     coco_gt = COCO(gt_json_file)
+    if set(evaluated_ids) != set(coco_gt.getImgIds()):
+        raise ValueError('Evaluated image IDs differ from the ground-truth split')
     if det_results:
         coco_dt = coco_gt.loadRes(output_file)
     else:
@@ -237,9 +255,19 @@ def evaluate(
     cocoEval.accumulate()
     cocoEval.summarize()
     metrics = {"AP": float(cocoEval.stats[0]), "AP50": float(cocoEval.stats[1]),
-               "AP75": float(cocoEval.stats[2]), "num_images": len(val_loader.dataset),
+               "AP75": float(cocoEval.stats[2]), "num_images": len(evaluated_ids),
                "inference_seconds": inference_seconds, "total_seconds": time.time() - evaluation_start,
-               "images_per_second": len(val_loader.dataset) / inference_seconds}
+               "images_per_second": len(evaluated_ids) / inference_seconds,
+               "model_seconds": model_seconds,
+               "model_images_per_second": len(evaluated_ids) / model_seconds,
+               "device": str(device), "torch": str(torch.__version__),
+               "gpu": torch.cuda.get_device_name(device) if device.type == 'cuda' else None,
+               "visualizations": visualized,
+               "timing_scope": {
+                   "model_seconds": "Synchronized model forward including resize/normalize, decoding and NMS; cold first batch included",
+                   "inference_seconds": "Whole data loop including loading, transfers, model, conversion and sample visualization writes",
+                   "total_seconds": "Whole evaluation including prediction JSON and COCOeval",
+               }}
     with open(os.path.join(os.path.dirname(output_file), "metrics.json"), "w") as stream:
         json.dump(metrics, stream, indent=2)
     return metrics
