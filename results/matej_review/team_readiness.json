@@ -1,0 +1,9 @@
+{
+  "ready": false,
+  "errors": [
+    "fcos: missing model_final.pth.tar",
+    "Factual team roster/contributions are missing",
+    "Final writeup/report.pdf is missing"
+  ],
+  "scope": "Current combined local checkout; no submission ZIP generated."
+}

@@ -109,7 +109,8 @@ def main(args):
                 continue
             if any(part in ('__pycache__', '.pytest_cache', '.DS_Store') for part in path.parts):
                 continue
-            if path.name.startswith('epoch_') or path.name.endswith('.partial') or path.name in ('report_draft.pdf', '.gitignore', 'file_sha256.json', 'eval_results.json'):
+            if (path.name.startswith('epoch_') or path.name.endswith('.partial')
+                    or path.stem.endswith('_draft') or path.name in ('.gitignore', 'file_sha256.json', 'eval_results.json')):
                 continue
             # Supplemental local checks reuse the same instructor checkpoint;
             # the required reference_fcos copy is sufficient in the final ZIP.

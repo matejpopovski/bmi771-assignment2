@@ -12,8 +12,9 @@ interfaces, deliverables, review process, and optional balanced bonus plan.
 - **Sean Chang (`seanchang1529`):** local-attention Transformer block (1), FCOS
   inference (2), and FCOS loss/training (3).
 
-This repository includes starter code and AI-assisted work prepared before team
-formation. Planned ownership is not a completed contribution statement.
+The project builds on the assignment starter. AI assistance contributed to
+implementation, experiment orchestration, tests, analysis, and report drafting.
+Actual member contributions are recorded separately for both students to confirm.
 
 ## Setup and commands
 
@@ -59,7 +60,7 @@ To restore the exact weights after cloning, run
 `python code/verify_classification.py`. The release component ZIP already contains
 code, the classifier report, and all four classifier checkpoints/configs/logs.
 
-The six-point classification component is prepared for Matej with AI assistance.
+The six-point classification component and its trained weights are available above.
 **The classification ZIP is not the finished Canvas submission.**
 
 ## Verified detector component
@@ -84,11 +85,22 @@ The instructor weights remain identified and separate from the trained detector.
 
 All 43 model/workflow cases pass locally and on Colab; the final local suite
 also includes a passing archive-selection test (44 total). TransformerBlock behavior/parameter
-shapes and Matej's classifier artifacts are unchanged. Preliminary model code
-was independently reviewed with AI assistance; Sean executed the cloud run and
-transferred the artifacts. Human understanding, both members' contribution
+shapes and Matej's classifier artifacts are unchanged. Sean executed the cloud
+run and transferred the artifacts. Human understanding, both members' contribution
 confirmation, cross-review, the combined PDF and the final team ZIP remain
 integration steps. Neither component archive is the completed Canvas submission.
+
+## Cross-review status
+
+The technical review of Sean's four commits passes 50 tests, including checks
+that prevent missing predictions, stale audits, and draft reports from being
+treated as verified final outputs. A new full 4,952-image reference evaluation
+reproduces 60.6862% AP50 on MPS. All available files matched Sean's component
+manifest before review changes; the trained FCOS checkpoint is still needed
+for an independent evaluation of his 60.52% result. Obtain it through the private
+component handoff; it is not included in Git or the classifier release.
+See [review evidence](results/matej_review/review.json). The original measured
+results and component PDFs are preserved.
 
 ## Team submission
 

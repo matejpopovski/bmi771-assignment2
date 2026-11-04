@@ -1,0 +1,66 @@
+{
+  "reviewed_commit": "1a7a798b486b669860eb0ab0310d6643555cd3a3",
+  "review_branch": "matej/detection-review",
+  "review_type": "Automated technical cross-review with AI assistance; not a claim of either student completing personal review.",
+  "complete_team_submission_ready": false,
+  "original_test_count": 44,
+  "review_test_count": 50,
+  "original_manifest_entries": 144,
+  "original_manifest_check": "At the fetched commit, every available file matched; only results/fcos/model_final.pth.tar was missing.",
+  "unchanged_model_sources": [
+    "code/cls_libs/modeling.py",
+    "code/det_libs/modeling.py",
+    "code/train_det.py"
+  ],
+  "reference_reevaluation": {
+    "metrics": {
+      "AP": 0.32795340491002606,
+      "AP50": 0.6068622887780991,
+      "AP75": 0.3188358211152361,
+      "num_images": 4952,
+      "inference_seconds": 90.05758810043335,
+      "total_seconds": 104.4373140335083,
+      "images_per_second": 54.98703778828129,
+      "model_seconds": 81.56682716213982,
+      "model_images_per_second": 60.71095532692888,
+      "device": "mps",
+      "torch": "2.15.0",
+      "gpu": null,
+      "visualizations": 0,
+      "timing_scope": {
+        "model_seconds": "Synchronized model forward including resize/normalize, decoding and NMS; cold first batch included",
+        "inference_seconds": "Whole data loop including loading, transfers, model, conversion and sample visualization writes",
+        "total_seconds": "Whole evaluation including prediction JSON and COCOeval"
+      }
+    },
+    "AP50_difference_from_submitted_cuda_percentage_points": -0.0005688706931961107,
+    "AP50_difference_from_submitted_mps_percentage_points": 0.0,
+    "checkpoint_sha256": "a5287528af113ffbe7c0d0cb530bf66faec4eff66b172c4e820be58fb3d8b928",
+    "prediction_sha256": "9d546e7ffc43ce159873422386d623b4676a60f400831dc0ab7fa78fa6ec726f",
+    "note": "Full 4952-image inference on MPS, batch 8, no visualization writes. Timing is descriptive, not a controlled CUDA comparison."
+  },
+  "classifier_artifact_audit_ready": true,
+  "classifier_validation_inference_repeated_this_review": false,
+  "detector_report_visual_review": "All five pages rendered and inspected; no clipping or overlapping content observed.",
+  "required_handoff": {
+    "checkpoint": "results/fcos/model_final.pth.tar",
+    "checkpoint_sha256": "601f945e96f6c4c97e481c057350fd8bd028d14894faadaa5d3e9886e88d8333",
+    "predictions": [
+      "results/fcos/eval_results.json",
+      "results/reference_fcos/eval_results.json"
+    ],
+    "note": "The local reference prediction dump predates Sean's CUDA run. It must not be relabeled as that run; request his original dumps or regenerate predictions separately."
+  },
+  "fixed_findings": [
+    "Explicit AP recomputation now fails on missing prediction files.",
+    "Cached AP verification is bound to the same checkpoint, predictions and annotation hashes.",
+    "Report verification claims require current weights/metrics to match the audit; AP verification is reported separately.",
+    "Separate audit output preserves the original audit and AP recheck logs.",
+    "Final submission packaging excludes all *_draft files."
+  ],
+  "remaining": [
+    "Obtain and hash-check the trained FCOS checkpoint; independently run full test-set inference.",
+    "Obtain original prediction dumps to repeat Sean's exact AP calculation, or retain a separately labeled new evaluation.",
+    "Confirm actual member contributions and combine the final report before producing the Canvas ZIP."
+  ]
+}
