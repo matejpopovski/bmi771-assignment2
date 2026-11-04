@@ -1,0 +1,20 @@
+{
+  "AP": 0.324217650450412,
+  "AP50": 0.6051915541831173,
+  "AP75": 0.315159862002618,
+  "num_images": 4952,
+  "inference_seconds": 91.87972593307495,
+  "total_seconds": 105.43840503692627,
+  "images_per_second": 53.89654735808669,
+  "model_seconds": 83.56087532796664,
+  "model_images_per_second": 59.26218437233909,
+  "device": "mps",
+  "torch": "2.15.0",
+  "gpu": null,
+  "visualizations": 0,
+  "timing_scope": {
+    "model_seconds": "Synchronized model forward including resize/normalize, decoding and NMS; cold first batch included",
+    "inference_seconds": "Whole data loop including loading, transfers, model, conversion and sample visualization writes",
+    "total_seconds": "Whole evaluation including prediction JSON and COCOeval"
+  }
+}

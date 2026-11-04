@@ -1,3 +1,5 @@
+> Historical component handoff. The integrated report is now [report.pdf](report.pdf); current verification is in [review.json](../results/matej_review/review.json).
+
 # Sean Chang's detector component: handoff to Matej
 
 The six required points have code review/tests, a completed cloud run and

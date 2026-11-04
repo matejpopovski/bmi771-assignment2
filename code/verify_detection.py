@@ -30,13 +30,20 @@ def sha256(path):
     return digest.hexdigest()
 
 
-def audit(recompute_ap=False):
+def audit(recompute_ap=False, output_path=None):
     torch.set_num_threads(2)
     errors, summaries, checkpoints = [], {}, {}
     review = ROOT / 'results/detection_review'
     review.mkdir(exist_ok=True)
+    destination = Path(output_path) if output_path is not None else review / 'detector_audit.json'
+    destination.parent.mkdir(parents=True, exist_ok=True)
     previous_path = review / 'detector_audit.json'
     previous = json.loads(previous_path.read_text()) if previous_path.exists() else {}
+    if recompute_ap:
+        for name in ['reference_fcos', 'fcos']:
+            if not (ROOT / 'results' / name / 'eval_results.json').is_file():
+                errors.append(f'{name}: --recompute-ap requires eval_results.json; '
+                              'restore the saved predictions or regenerate them from the checkpoint')
     for name in ['reference_fcos', 'fcos']:
         folder = ROOT / 'results' / name
         required = ['config.yaml', 'model_final.pth.tar', 'metrics.json', 'evaluation.log']
@@ -120,15 +127,16 @@ def audit(recompute_ap=False):
         prediction_file = folder / 'eval_results.json'
         prior = previous.get('experiments', {}).get(name, {})
         if (not recompute_ap and prediction_file.exists()
+                and prior.get('checkpoint_sha256') == checkpoint_hash
                 and prior.get('prediction_sha256') == sha256(prediction_file)
                 and prior.get('ground_truth_sha256') == sha256(ROOT / 'data/test.json')):
             for key in ['prediction_recheck', 'prediction_sha256', 'ground_truth_sha256']:
                 summary[key] = prior[key]
             for key, value in prior['prediction_recheck'].items():
-                if abs(value - metrics[key]) > 1e-10:
+                if not math.isfinite(value) or abs(value - metrics[key]) > 1e-10:
                     errors.append(f'{name}: cached independent {key} disagrees')
         if recompute_ap and prediction_file.exists():
-            log = review / f'{name}_prediction_recheck.log'
+            log = destination.parent / f'{name}_prediction_recheck.log'
             with log.open('w') as output, redirect_stdout(output):
                 ground_truth = COCO(str(ROOT / 'data/test.json'))
                 predictions = ground_truth.loadRes(str(prediction_file))
@@ -157,16 +165,25 @@ def audit(recompute_ap=False):
     data = json.loads((review / 'data_audit.json').read_text())
     if data.get('split_filename_overlap') != 0 or not all(data[s]['images_checked'] for s in ['trainval', 'test']):
         errors.append('Full data/image audit missing or overlapping splits')
+    prediction_complete = all(
+        name in summaries and all(
+            key in summaries[name].get('prediction_recheck', {})
+            and math.isfinite(summaries[name]['prediction_recheck'][key])
+            and abs(summaries[name]['prediction_recheck'][key] - summaries[name]['metrics'][key]) <= 1e-10
+            for key in ['AP', 'AP50', 'AP75'])
+        for name in ['reference_fcos', 'fcos'])
     result = {'ready': not errors, 'scope': 'required detection/Transformer component; personal and team review remain separate',
+              'prediction_recheck_complete': prediction_complete,
               'errors': errors, 'experiments': summaries}
-    (review / 'detector_audit.json').write_text(json.dumps(result, indent=2))
+    destination.write_text(json.dumps(result, indent=2))
     return result
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--recompute-ap', action='store_true')
+    parser.add_argument('--output', type=Path, help='save a new audit without replacing the supplied audit')
     args = parser.parse_args()
-    result = audit(args.recompute_ap)
+    result = audit(args.recompute_ap, args.output)
     print(json.dumps(result, indent=2))
     raise SystemExit(0 if result['ready'] else 1)

@@ -96,7 +96,10 @@ The completed T4 run and imported artifacts are audited in
 60.5191% AP50 and the instructor reference 60.6868% on 4,952 test images.
 The local final suite has 44 passing tests; the cloud model/workflow suite has 43.
 Run `verify_detection.py --recompute-ap` while the original prediction JSON files
-are present to repeat the independent COCO AP check. `package_detection.py`
+are present to repeat the independent COCO AP check. Missing prediction files
+make that command fail; the default artifact-only audit records whether AP was
+also checked. Use `--output tmp/detector_review.json` to preserve the supplied
+audit while checking a new checkout. `package_detection.py`
 creates a private component ZIP with final weights and a verified SHA-256
 manifest; it is not the combined Canvas submission.
 

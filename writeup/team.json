@@ -1,0 +1,13 @@
+{
+  "members": [
+    {
+      "name": "Matej Popovski",
+      "contribution": "Classification component: custom CNN, SimpleNet/ResNet-18 comparison, multi-head attention and ViT experiments; repository setup, artifact verification and combined report/submission integration (6 required points)."
+    },
+    {
+      "name": "Sean Chang",
+      "contribution": "TransformerBlock review and FCOS inference/loss component; Colab T4 reference evaluation, detector training/evaluation, saved artifacts and detection analysis (6 required points)."
+    }
+  ],
+  "assistance": "The project builds on the assignment starter, with AI assistance in implementation, experiment orchestration, testing, analysis and report drafting. Existing starter code is not claimed as newly authored work."
+}

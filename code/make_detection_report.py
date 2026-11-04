@@ -7,12 +7,26 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from PIL import Image
 import yaml
+from verify_detection import sha256
 
 ROOT = Path(__file__).resolve().parent.parent
 
 
 def read_json(path):
     return json.loads(path.read_text()) if path.exists() else None
+
+
+def audit_matches_artifacts(audit, results):
+    """Do not attach an older audit to new or unavailable experiment outputs."""
+    if not audit or not audit.get('ready'):
+        return False
+    for name in ['reference_fcos', 'fcos']:
+        recorded = audit.get('experiments', {}).get(name, {})
+        checkpoint = results / name / 'model_final.pth.tar'
+        if (not checkpoint.is_file() or sha256(checkpoint) != recorded.get('checkpoint_sha256')
+                or read_json(results / name / 'metrics.json') != recorded.get('metrics')):
+            return False
+    return True
 
 
 def main():
@@ -179,16 +193,22 @@ def main():
         lines += [analysis.read_text().strip(), '']
     else:
         lines += ['Qualitative error analysis requires inspection of the actual trained-model examples.', '']
-    if audit and audit['ready']:
+    if audit_matches_artifacts(audit, results):
         trained = audit['experiments']['fcos']
         lines += ['## Artifact verification', '',
                   f"The detector audit passes: strict saved-config checkpoint loading, finite tensors, "
                   f"all {trained['epochs']} scheduled epochs, 12 matched sample images per detector, and nonempty "
-                  'TensorBoard scalar streams. Recomputing COCO AP from the transferred prediction JSON files '
-                  'and the original test annotations reproduces the reported AP/AP50/AP75 exactly.', '',
+                  'TensorBoard scalar streams.', '',
                   f"The trained checkpoint differs from the instructor checkpoint in "
                   f"{trained['floating_tensors_different_from_instructor']} floating tensors. "
                   'The exact SHA-256 digests are recorded in results/detection_review/detector_audit.json.', '']
+        if audit.get('prediction_recheck_complete', False):
+            lines += ['Recomputing COCO AP from the transferred prediction JSON files and the '
+                      'original test annotations reproduces the reported AP/AP50/AP75 exactly.', '']
+        else:
+            lines += ['This audit does not establish an independent AP recomputation. Run '
+                      '`python code/verify_detection.py --recompute-ap` with both saved prediction '
+                      'files available before claiming that verification.', '']
     lines += [
         '## Verification, provenance and remaining review', '',
         'Existing code was preliminary and AI-assisted. This work independently reviewed the assigned '

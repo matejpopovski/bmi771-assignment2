@@ -1,0 +1,100 @@
+{'dataset': {'img_folder': '../data/VOCdevkit/VOC2007/JPEGImages',
+             'json_folder': '../data',
+             'name': 'VOC2007',
+             'test': 'test',
+             'train': 'trainval'},
+ 'devices': ['mps'],
+ 'dtype': 'fp32',
+ 'input': {'img_max_size': 640,
+           'img_mean': [0.485, 0.456, 0.406],
+           'img_min_size': [288, 320, 352, 384, 416, 448, 480],
+           'img_std': [0.229, 0.224, 0.225]},
+ 'loader': {'batch_size': 32, 'num_workers': 2},
+ 'model': {'backbone': 'resnet18',
+           'backbone_freeze_bn': False,
+           'backbone_out_feats': ['layer2', 'layer3', 'layer4'],
+           'backbone_out_feats_dims': [128, 256, 512],
+           'fpn_feats_dim': 128,
+           'fpn_strides': [8, 16, 32, 64, 128],
+           'img_max_size': 640,
+           'img_mean': [0.485, 0.456, 0.406],
+           'img_min_size': [288, 320, 352, 384, 416, 448, 480],
+           'img_std': [0.229, 0.224, 0.225],
+           'num_classes': 20,
+           'regression_range': [[0, 64],
+                                [64, 128],
+                                [128, 256],
+                                [256, 512],
+                                [512, 1000]],
+           'test_cfg': {'detections_per_img': 100,
+                        'nms_thresh': 0.6,
+                        'score_thresh': 0.1,
+                        'topk_candidates': 1000},
+           'train_cfg': {'center_sampling_radius': 1.5}},
+ 'model_name': 'FCOS',
+ 'opt': {'epochs': 12,
+         'learning_rate': 0.02,
+         'momentum': 0.9,
+         'schedule_gamma': 0.1,
+         'schedule_steps': [],
+         'schedule_type': 'cosine',
+         'type': 'SGD',
+         'warmup': True,
+         'warmup_epochs': 3,
+         'weight_decay': 0.0001},
+ 'output_folder': '../logs',
+ 'seed': 771,
+ 'test_cfg': {'detections_per_img': 100,
+              'nms_thresh': 0.6,
+              'score_thresh': 0.1,
+              'topk_candidates': 1000},
+ 'train_cfg': {'center_sampling_radius': 1.5}}
+loading annotations into memory...
+Done (t=0.01s)
+creating index...
+index created!
+=> loading checkpoint '../tmp/detection_review/fcos_mps_batch32/model_final.pth.tar'
+Loading model ...
+
+Start testing ...
+Test: [00010/00155]	Time 1.01 (1.01)
+Test: [00020/00155]	Time 0.56 (0.78)
+Test: [00030/00155]	Time 0.56 (0.71)
+Test: [00040/00155]	Time 0.57 (0.67)
+Test: [00050/00155]	Time 0.57 (0.65)
+Test: [00060/00155]	Time 0.57 (0.64)
+Test: [00070/00155]	Time 0.56 (0.63)
+Test: [00080/00155]	Time 0.57 (0.62)
+Test: [00090/00155]	Time 0.57 (0.61)
+Test: [00100/00155]	Time 0.57 (0.61)
+Test: [00110/00155]	Time 0.58 (0.61)
+Test: [00120/00155]	Time 0.60 (0.61)
+Test: [00130/00155]	Time 0.57 (0.60)
+Test: [00140/00155]	Time 0.56 (0.60)
+Test: [00150/00155]	Time 0.57 (0.60)
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+Loading and preparing results...
+DONE (t=1.29s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=7.31s).
+Accumulating evaluation results...
+DONE (t=2.86s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.324
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.605
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.315
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.075
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.197
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.398
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.316
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.496
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.536
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.197
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.443
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.612
+All done! Total time: 105.74 sec

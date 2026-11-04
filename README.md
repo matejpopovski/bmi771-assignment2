@@ -12,8 +12,9 @@ interfaces, deliverables, review process, and optional balanced bonus plan.
 - **Sean Chang (`seanchang1529`):** local-attention Transformer block (1), FCOS
   inference (2), and FCOS loss/training (3).
 
-This repository includes starter code and AI-assisted work prepared before team
-formation. Planned ownership is not a completed contribution statement.
+The project builds on the assignment starter. AI assistance contributed to
+implementation, experiment orchestration, tests, analysis, and report drafting.
+Member contributions are recorded in [writeup/team.json](writeup/team.json) and the combined report.
 
 ## Setup and commands
 
@@ -59,7 +60,7 @@ To restore the exact weights after cloning, run
 `python code/verify_classification.py`. The release component ZIP already contains
 code, the classifier report, and all four classifier checkpoints/configs/logs.
 
-The six-point classification component is prepared for Matej with AI assistance.
+The six-point classification component and its trained weights are available above.
 **The classification ZIP is not the finished Canvas submission.**
 
 ## Verified detector component
@@ -82,19 +83,33 @@ The instructor weights remain identified and separate from the trained detector.
 - [GPU workflow and reproduction](code/DETECTION_README.md)
 - [Team handoff and remaining integration](writeup/TEAM_HANDOFF.md)
 
-All 43 model/workflow cases pass locally and on Colab; the final local suite
-also includes a passing archive-selection test (44 total). TransformerBlock behavior/parameter
-shapes and Matej's classifier artifacts are unchanged. Preliminary model code
-was independently reviewed with AI assistance; Sean executed the cloud run and
-transferred the artifacts. Human understanding, both members' contribution
-confirmation, cross-review, the combined PDF and the final team ZIP remain
-integration steps. Neither component archive is the completed Canvas submission.
+## Final verification and integration
+
+The combined report is [writeup/report.pdf](writeup/report.pdf). The final suite
+passes all 50 tests, including mathematical checks, complete evaluation coverage,
+checkpoint/configuration loading, stale audit rejection, and archive selection.
+The original component reports remain as historical artifacts; the final ZIP
+includes only the combined report and team contribution metadata under writeup/.
+
+Both handoff archives were received and hash-checked. All 144 component manifest
+entries match. The trained FCOS checkpoint loads strictly, has 15 complete epochs,
+and differs from the instructor checkpoint in 146 floating tensors. Independent
+COCOeval recomputation from both original prediction dumps exactly matches
+AP/AP50/AP75. Full inference checks and device/batch details are recorded in
+[review evidence](results/matej_review/review.json) and the final report.
+
+Preserve the saved detector evaluation batch sizes (reference 8; trained 32).
+Padding and spatial GroupNorm can make predictions depend on batch composition.
+Do not overwrite the primary measurements with checks made under other settings.
 
 ## Team submission
 
 The final Canvas archive must contain only `code/`, `writeup/`, and `results/`.
 Every team member submits the same finished archive. `code/package_submission.py`
-checks the full team artifacts before producing `submission.zip`.
+checks the full team artifacts before producing `submission.zip`. Regenerate the
+combined PDF with `python code/make_final_report.py`. The final ZIP remains local
+because it contains the instructor-supplied reference checkpoint. Both members
+should read the combined report, confirm their contributions, and submit the same ZIP.
 Datasets, intermediate checkpoints, and local environments are excluded from Git.
 The original assignment release remains the source for course materials and the
 instructor's reference checkpoint.

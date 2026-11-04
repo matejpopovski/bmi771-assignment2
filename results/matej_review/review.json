@@ -1,0 +1,126 @@
+{
+  "reviewed_commit": "1a7a798b486b669860eb0ab0310d6643555cd3a3",
+  "review_branch": "matej/detection-review",
+  "review_type": "Automated technical cross-review with AI assistance; not a claim of either student completing personal review.",
+  "complete_team_submission_ready": true,
+  "original_test_count": 44,
+  "review_test_count": 50,
+  "original_manifest_entries": 144,
+  "original_manifest_check": "At the fetched commit, every available file matched; only results/fcos/model_final.pth.tar was missing.",
+  "unchanged_model_sources": [
+    "code/cls_libs/modeling.py",
+    "code/det_libs/modeling.py",
+    "code/train_det.py"
+  ],
+  "reference_reevaluation": {
+    "metrics": {
+      "AP": 0.32795340491002606,
+      "AP50": 0.6068622887780991,
+      "AP75": 0.3188358211152361,
+      "num_images": 4952,
+      "inference_seconds": 90.05758810043335,
+      "total_seconds": 104.4373140335083,
+      "images_per_second": 54.98703778828129,
+      "model_seconds": 81.56682716213982,
+      "model_images_per_second": 60.71095532692888,
+      "device": "mps",
+      "torch": "2.15.0",
+      "gpu": null,
+      "visualizations": 0,
+      "timing_scope": {
+        "model_seconds": "Synchronized model forward including resize/normalize, decoding and NMS; cold first batch included",
+        "inference_seconds": "Whole data loop including loading, transfers, model, conversion and sample visualization writes",
+        "total_seconds": "Whole evaluation including prediction JSON and COCOeval"
+      }
+    },
+    "AP50_difference_from_submitted_cuda_percentage_points": -0.0005688706931961107,
+    "AP50_difference_from_submitted_mps_percentage_points": 0.0,
+    "checkpoint_sha256": "a5287528af113ffbe7c0d0cb530bf66faec4eff66b172c4e820be58fb3d8b928",
+    "prediction_sha256": "9d546e7ffc43ce159873422386d623b4676a60f400831dc0ab7fa78fa6ec726f",
+    "note": "Full 4952-image inference on MPS, batch 8, no visualization writes. Timing is descriptive, not a controlled CUDA comparison."
+  },
+  "classifier_artifact_audit_ready": true,
+  "classifier_validation_inference_repeated_this_review": false,
+  "detector_report_visual_review": "All five pages rendered and inspected; no clipping or overlapping content observed.",
+  "required_handoff": {
+    "checkpoint": "results/fcos/model_final.pth.tar",
+    "checkpoint_sha256": "601f945e96f6c4c97e481c057350fd8bd028d14894faadaa5d3e9886e88d8333",
+    "predictions": [
+      "results/fcos/eval_results.json",
+      "results/reference_fcos/eval_results.json"
+    ],
+    "note": "Both original archives received; trained checkpoint and original CUDA predictions restored with exact hashes.",
+    "received": true
+  },
+  "fixed_findings": [
+    "Explicit AP recomputation now fails on missing prediction files.",
+    "Cached AP verification is bound to the same checkpoint, predictions and annotation hashes.",
+    "Report verification claims require current weights/metrics to match the audit; AP verification is reported separately.",
+    "Separate audit output preserves the original audit and AP recheck logs.",
+    "Final submission packaging excludes all *_draft files."
+  ],
+  "remaining": [
+    "Both students read the final report, confirm their stated contributions, and submit the same ZIP on Canvas."
+  ],
+  "trained_detector_reevaluation": {
+    "verified": true,
+    "metrics": {
+      "AP": 0.324217650450412,
+      "AP50": 0.6051915541831173,
+      "AP75": 0.315159862002618,
+      "num_images": 4952,
+      "inference_seconds": 91.87972593307495,
+      "total_seconds": 105.43840503692627,
+      "images_per_second": 53.89654735808669,
+      "model_seconds": 83.56087532796664,
+      "model_images_per_second": 59.26218437233909,
+      "device": "mps",
+      "torch": "2.15.0",
+      "gpu": null,
+      "visualizations": 0,
+      "timing_scope": {
+        "model_seconds": "Synchronized model forward including resize/normalize, decoding and NMS; cold first batch included",
+        "inference_seconds": "Whole data loop including loading, transfers, model, conversion and sample visualization writes",
+        "total_seconds": "Whole evaluation including prediction JSON and COCOeval"
+      }
+    },
+    "batch_size": 32,
+    "checkpoint_sha256": "601f945e96f6c4c97e481c057350fd8bd028d14894faadaa5d3e9886e88d8333",
+    "prediction_sha256": "aa80cfa1d9eb83635fe39b667c2a6f138ae5b639e57fe34ec23ba02250d46417",
+    "AP50_difference_from_submitted_cuda_percentage_points": 2.7947439351638792e-05,
+    "differences_from_cuda_percentage_points": {
+      "AP": -2.310841568098354e-05,
+      "AP50": 2.7947439351638792e-05,
+      "AP75": -0.0001034513126607628
+    },
+    "note": "Independent full 4952-image inference using the saved evaluation batch size 32; same checkpoint and source, MPS instead of CUDA. All AP measures agree within 0.01 percentage point."
+  },
+  "batch_size_sensitivity": {
+    "batch8_AP50": 0.6031423348794475,
+    "batch32_AP50": 0.6051915541831173,
+    "explanation": "GroupNorm includes spatially padded regions; different batch composition changes padding and predictions. The batch-8 check is retained separately, not substituted for the submitted batch-32 result."
+  },
+  "handoff_verified": {
+    "component_sha256": "e0184cc5e5f2fd548e8cc21296393f67b16cf33b2fa9eac02d0f12593195adaf",
+    "component_manifest_files_verified": 144,
+    "fcos_checkpoint_sha256": "601f945e96f6c4c97e481c057350fd8bd028d14894faadaa5d3e9886e88d8333",
+    "imported_files": [
+      "results/fcos/model_final.pth.tar"
+    ],
+    "results_archive_sha256": "2f53a5fe0dd25119d69f39eb06d633b3dc9266782d43648ff1bed706a24f37e3",
+    "predictions_sha256": {
+      "fcos": "1475363f4975d7a9a6e90e4b3cda208d3c773f05f10080885383b5c331df1138",
+      "reference_fcos": "740bf7266af93b3340727a6f3714e809f1b2f7061cc0f7609515e59154e53103"
+    }
+  },
+  "original_prediction_recheck_complete": true,
+  "readiness_scope": "Technical artifacts, report and package audit complete; each student still reviews and submits their own copy on Canvas.",
+  "final_report": {
+    "path": "writeup/report.pdf",
+    "pages": 10,
+    "sha256": "97e6516adb63b5b41d151f9357fae3068c6073fd8a3b703dee123085effeaebc",
+    "visual_review": "All ten pages rendered and inspected; updated pages 1 and 10 inspected again. No clipping, overlap, missing figures or unfinished sections."
+  },
+  "final_test_count": 50,
+  "final_test_log": "results/matej_review/final_tests.txt"
+}
