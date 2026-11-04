@@ -2,7 +2,7 @@
   "reviewed_commit": "1a7a798b486b669860eb0ab0310d6643555cd3a3",
   "review_branch": "matej/detection-review",
   "review_type": "Automated technical cross-review with AI assistance; not a claim of either student completing personal review.",
-  "complete_team_submission_ready": false,
+  "complete_team_submission_ready": true,
   "original_test_count": 44,
   "review_test_count": 50,
   "original_manifest_entries": 144,
@@ -49,7 +49,8 @@
       "results/fcos/eval_results.json",
       "results/reference_fcos/eval_results.json"
     ],
-    "note": "The local reference prediction dump predates Sean's CUDA run. It must not be relabeled as that run; request his original dumps or regenerate predictions separately."
+    "note": "Both original archives received; trained checkpoint and original CUDA predictions restored with exact hashes.",
+    "received": true
   },
   "fixed_findings": [
     "Explicit AP recomputation now fails on missing prediction files.",
@@ -59,8 +60,67 @@
     "Final submission packaging excludes all *_draft files."
   ],
   "remaining": [
-    "Obtain and hash-check the trained FCOS checkpoint; independently run full test-set inference.",
-    "Obtain original prediction dumps to repeat Sean's exact AP calculation, or retain a separately labeled new evaluation.",
-    "Confirm actual member contributions and combine the final report before producing the Canvas ZIP."
-  ]
+    "Both students read the final report, confirm their stated contributions, and submit the same ZIP on Canvas."
+  ],
+  "trained_detector_reevaluation": {
+    "verified": true,
+    "metrics": {
+      "AP": 0.324217650450412,
+      "AP50": 0.6051915541831173,
+      "AP75": 0.315159862002618,
+      "num_images": 4952,
+      "inference_seconds": 91.87972593307495,
+      "total_seconds": 105.43840503692627,
+      "images_per_second": 53.89654735808669,
+      "model_seconds": 83.56087532796664,
+      "model_images_per_second": 59.26218437233909,
+      "device": "mps",
+      "torch": "2.15.0",
+      "gpu": null,
+      "visualizations": 0,
+      "timing_scope": {
+        "model_seconds": "Synchronized model forward including resize/normalize, decoding and NMS; cold first batch included",
+        "inference_seconds": "Whole data loop including loading, transfers, model, conversion and sample visualization writes",
+        "total_seconds": "Whole evaluation including prediction JSON and COCOeval"
+      }
+    },
+    "batch_size": 32,
+    "checkpoint_sha256": "601f945e96f6c4c97e481c057350fd8bd028d14894faadaa5d3e9886e88d8333",
+    "prediction_sha256": "aa80cfa1d9eb83635fe39b667c2a6f138ae5b639e57fe34ec23ba02250d46417",
+    "AP50_difference_from_submitted_cuda_percentage_points": 2.7947439351638792e-05,
+    "differences_from_cuda_percentage_points": {
+      "AP": -2.310841568098354e-05,
+      "AP50": 2.7947439351638792e-05,
+      "AP75": -0.0001034513126607628
+    },
+    "note": "Independent full 4952-image inference using the saved evaluation batch size 32; same checkpoint and source, MPS instead of CUDA. All AP measures agree within 0.01 percentage point."
+  },
+  "batch_size_sensitivity": {
+    "batch8_AP50": 0.6031423348794475,
+    "batch32_AP50": 0.6051915541831173,
+    "explanation": "GroupNorm includes spatially padded regions; different batch composition changes padding and predictions. The batch-8 check is retained separately, not substituted for the submitted batch-32 result."
+  },
+  "handoff_verified": {
+    "component_sha256": "e0184cc5e5f2fd548e8cc21296393f67b16cf33b2fa9eac02d0f12593195adaf",
+    "component_manifest_files_verified": 144,
+    "fcos_checkpoint_sha256": "601f945e96f6c4c97e481c057350fd8bd028d14894faadaa5d3e9886e88d8333",
+    "imported_files": [
+      "results/fcos/model_final.pth.tar"
+    ],
+    "results_archive_sha256": "2f53a5fe0dd25119d69f39eb06d633b3dc9266782d43648ff1bed706a24f37e3",
+    "predictions_sha256": {
+      "fcos": "1475363f4975d7a9a6e90e4b3cda208d3c773f05f10080885383b5c331df1138",
+      "reference_fcos": "740bf7266af93b3340727a6f3714e809f1b2f7061cc0f7609515e59154e53103"
+    }
+  },
+  "original_prediction_recheck_complete": true,
+  "readiness_scope": "Technical artifacts, report and package audit complete; each student still reviews and submits their own copy on Canvas.",
+  "final_report": {
+    "path": "writeup/report.pdf",
+    "pages": 10,
+    "sha256": "97e6516adb63b5b41d151f9357fae3068c6073fd8a3b703dee123085effeaebc",
+    "visual_review": "All ten pages rendered and inspected; updated pages 1 and 10 inspected again. No clipping, overlap, missing figures or unfinished sections."
+  },
+  "final_test_count": 50,
+  "final_test_log": "results/matej_review/final_tests.txt"
 }

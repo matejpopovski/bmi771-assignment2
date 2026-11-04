@@ -107,6 +107,9 @@ def main(args):
         for path in (ROOT / name).rglob('*'):
             if not path.is_file() or path.is_symlink():
                 continue
+            # The combined report supersedes component PDFs and handoff notes.
+            if name == 'writeup' and path.relative_to(ROOT / name).as_posix() not in ('report.pdf', 'team.json'):
+                continue
             if any(part in ('__pycache__', '.pytest_cache', '.DS_Store') for part in path.parts):
                 continue
             if (path.name.startswith('epoch_') or path.name.endswith('.partial')
@@ -115,6 +118,8 @@ def main(args):
             # Supplemental local checks reuse the same instructor checkpoint;
             # the required reference_fcos copy is sufficient in the final ZIP.
             if 'detection_review' in path.parts and path.name.endswith(('.pth', '.pth.tar', '.pt')):
+                continue
+            if 'detection_review' in path.parts and path.name in ('team_readiness.json', 'component_sha256.json'):
                 continue
             files.append(path)
     manifest = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in files}

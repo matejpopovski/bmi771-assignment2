@@ -1,0 +1,13 @@
+{
+  "component_sha256": "e0184cc5e5f2fd548e8cc21296393f67b16cf33b2fa9eac02d0f12593195adaf",
+  "component_manifest_files_verified": 144,
+  "fcos_checkpoint_sha256": "601f945e96f6c4c97e481c057350fd8bd028d14894faadaa5d3e9886e88d8333",
+  "imported_files": [
+    "results/fcos/model_final.pth.tar"
+  ],
+  "results_archive_sha256": "2f53a5fe0dd25119d69f39eb06d633b3dc9266782d43648ff1bed706a24f37e3",
+  "predictions_sha256": {
+    "fcos": "1475363f4975d7a9a6e90e4b3cda208d3c773f05f10080885383b5c331df1138",
+    "reference_fcos": "740bf7266af93b3340727a6f3714e809f1b2f7061cc0f7609515e59154e53103"
+  }
+}

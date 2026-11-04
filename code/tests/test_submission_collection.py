@@ -13,6 +13,9 @@ def test_submission_archive_selection_and_manifest(tmp_path, monkeypatch):
     files = {
         'code/example.py': 'code',
         'writeup/report.pdf': 'final report',
+        'writeup/team.json': 'final member contributions',
+        'writeup/sean_detection.pdf': 'superseded component report',
+        'writeup/TEAM_HANDOFF.md': 'historical integration notes',
         'writeup/report_draft.pdf': 'outdated report',
         'writeup/matej_classification_draft.pdf': 'outdated classifier report',
         'writeup/team_contributions_draft.md': 'unconfirmed contributions',
@@ -39,6 +42,7 @@ def test_submission_archive_selection_and_manifest(tmp_path, monkeypatch):
         assert not any(name.endswith('.partial') or '/epoch_' in name or name.endswith('eval_results.json') for name in names)
         assert 'results/detection_review/reference_mps/model_final.pth.tar' not in names
         assert not any(Path(name).stem.endswith('_draft') for name in names)
+        assert {name for name in names if name.startswith('writeup/')} == {'writeup/report.pdf', 'writeup/team.json'}
         assert {name.split('/')[0] for name in names} == {'code', 'writeup', 'results'}
         manifest = json.loads(z.read('results/file_sha256.json'))
         for name, digest in manifest.items():
