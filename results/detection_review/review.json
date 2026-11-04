@@ -10,5 +10,11 @@
   "torch": "2.15.0",
   "torchvision": "0.29.2",
   "python": "3.12.12",
-  "status": "Local review/tests complete; CUDA reference evaluation and own-detector training remain pending."
+  "status": "Local independent review, tests and full MPS instructor-reference evaluation complete. CUDA reference measurement and independently trained FCOS artifacts remain pending.",
+  "local_reference_validation": {
+    "device": "mps",
+    "AP50": 0.6068622887780991,
+    "num_images": 4952,
+    "metrics": "reference_mps/metrics.json"
+  }
 }

@@ -1,0 +1,1 @@
+Instructor-supplied checkpoint, evaluated locally on MPS for additional validation only. Not trained by this team. Required CUDA results are collected separately.
