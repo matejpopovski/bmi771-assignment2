@@ -10,11 +10,16 @@
   "torch": "2.15.0",
   "torchvision": "0.29.2",
   "python": "3.12.12",
-  "status": "Local independent review, tests and full MPS instructor-reference evaluation complete. CUDA reference measurement and independently trained FCOS artifacts remain pending.",
+  "status": "Required component technical work complete and audited; personal understanding, team contribution confirmation, cross-review and final report/ZIP integration remain.",
   "local_reference_validation": {
     "device": "mps",
     "AP50": 0.6068622887780991,
     "num_images": 4952,
     "metrics": "reference_mps/metrics.json"
-  }
+  },
+  "cloud_training_commit": "34d0e0c539575eb43bb0a177e61e610de919760a",
+  "cloud_archive_sha256": "2f53a5fe0dd25119d69f39eb06d633b3dc9266782d43648ff1bed706a24f37e3",
+  "detector_audit": "detector_audit.json",
+  "final_local_tests": "44 passed; see final_local_tests.txt (43 model/workflow cases plus one submission collection case).",
+  "cloud_tests": "43 passed; see cloud_tests.txt."
 }

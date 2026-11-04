@@ -1,9 +1,20 @@
 {
-  "AP": 0.32795340491002606,
-  "AP50": 0.6068622887780991,
-  "AP75": 0.3188358211152361,
+  "AP": 0.3279551135987825,
+  "AP50": 0.6068679774850311,
+  "AP75": 0.31883556932228074,
   "num_images": 4952,
-  "inference_seconds": 115.70249915122986,
-  "total_seconds": 130.28383898735046,
-  "images_per_second": 42.79942124264273
+  "inference_seconds": 126.98987674713135,
+  "total_seconds": 177.70197653770447,
+  "images_per_second": 38.99523431982435,
+  "model_seconds": 102.6582980019989,
+  "model_images_per_second": 48.23769823169655,
+  "device": "cuda:0",
+  "torch": "2.11.0+cu130",
+  "gpu": "Tesla T4",
+  "visualizations": 12,
+  "timing_scope": {
+    "model_seconds": "Synchronized model forward including resize/normalize, decoding and NMS; cold first batch included",
+    "inference_seconds": "Whole data loop including loading, transfers, model, conversion and sample visualization writes",
+    "total_seconds": "Whole evaluation including prediction JSON and COCOeval"
+  }
 }

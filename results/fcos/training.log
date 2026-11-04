@@ -1,0 +1,218 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793764252.681954   13758 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793764256.148916   13758 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+{'dataset': {'img_folder': '../data/VOCdevkit/VOC2007/JPEGImages',
+             'json_folder': '../data',
+             'name': 'VOC2007',
+             'test': 'test',
+             'train': 'trainval'},
+ 'devices': ['cuda:0'],
+ 'dtype': 'fp16',
+ 'input': {'img_max_size': 640,
+           'img_mean': [0.485, 0.456, 0.406],
+           'img_min_size': [288, 320, 352, 384, 416, 448, 480],
+           'img_std': [0.229, 0.224, 0.225]},
+ 'loader': {'batch_size': 32, 'num_workers': 2},
+ 'model': {'backbone': 'resnet18',
+           'backbone_freeze_bn': False,
+           'backbone_out_feats': ['layer2', 'layer3', 'layer4'],
+           'backbone_out_feats_dims': [128, 256, 512],
+           'fpn_feats_dim': 128,
+           'fpn_strides': [8, 16, 32, 64, 128],
+           'img_max_size': 640,
+           'img_mean': [0.485, 0.456, 0.406],
+           'img_min_size': [288, 320, 352, 384, 416, 448, 480],
+           'img_std': [0.229, 0.224, 0.225],
+           'num_classes': 20,
+           'regression_range': [(0, 64),
+                                (64, 128),
+                                (128, 256),
+                                (256, 512),
+                                (512, 1000)],
+           'test_cfg': {'detections_per_img': 100,
+                        'nms_thresh': 0.6,
+                        'score_thresh': 0.1,
+                        'topk_candidates': 1000},
+           'train_cfg': {'center_sampling_radius': 1.5}},
+ 'model_name': 'FCOS',
+ 'opt': {'epochs': 12,
+         'learning_rate': 0.02,
+         'momentum': 0.9,
+         'schedule_gamma': 0.1,
+         'schedule_steps': [],
+         'schedule_type': 'cosine',
+         'type': 'SGD',
+         'warmup': True,
+         'warmup_epochs': 3,
+         'weight_decay': 0.0001},
+ 'output_folder': '../logs',
+ 'seed': 771,
+ 'test_cfg': {'detections_per_img': 100,
+              'nms_thresh': 0.6,
+              'score_thresh': 0.1,
+              'topk_candidates': 1000},
+ 'train_cfg': {'center_sampling_radius': 1.5}}
+loading annotations into memory...
+Done (t=0.05s)
+creating index...
+index created!
+Downloading: "https://download.pytorch.org/models/resnet18-f37072fd.pth" to /root/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth
+  0%|          | 0.00/44.7M [00:00<?, ?B/s] 48%|████▊     | 21.5M/44.7M [00:00<00:00, 225MB/s] 96%|█████████▋| 43.0M/44.7M [00:00<00:00, 210MB/s]100%|██████████| 44.7M/44.7M [00:00<00:00, 213MB/s]
+Using mixed precision training
+
+Start training ...
+
+[Train]: Epoch 0 started
+/content/bmi771-detection/code/det_libs/engine.py:57: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  scheduler.step()
+Epoch: [000][00050/00156]	Time 0.98 (0.98)	Loss 1.96 (3.33)
+		cls_loss 0.70 (1.28)	reg_loss 0.59 (1.13)	ctr_loss 0.67 (0.92)
+Epoch: [000][00100/00156]	Time 0.80 (0.89)	Loss 1.41 (2.62)
+		cls_loss 0.53 (0.98)	reg_loss 0.38 (0.85)	ctr_loss 0.50 (0.79)
+Epoch: [000][00150/00156]	Time 0.80 (0.86)	Loss 1.59 (2.33)
+		cls_loss 0.51 (0.85)	reg_loss 0.46 (0.73)	ctr_loss 0.62 (0.75)
+[Train]: Epoch 0 finished with lr=0.00668094
+
+
+[Train]: Epoch 1 started
+Epoch: [001][00050/00156]	Time 0.83 (0.83)	Loss 1.65 (1.69)
+		cls_loss 0.54 (0.56)	reg_loss 0.46 (0.47)	ctr_loss 0.65 (0.66)
+Epoch: [001][00100/00156]	Time 0.80 (0.81)	Loss 1.73 (1.62)
+		cls_loss 0.48 (0.51)	reg_loss 0.51 (0.45)	ctr_loss 0.73 (0.66)
+Epoch: [001][00150/00156]	Time 0.80 (0.81)	Loss 1.78 (1.60)
+		cls_loss 0.54 (0.50)	reg_loss 0.51 (0.44)	ctr_loss 0.73 (0.66)
+[Train]: Epoch 1 finished with lr=0.01336188
+
+
+[Train]: Epoch 2 started
+Epoch: [002][00050/00156]	Time 0.84 (0.84)	Loss 1.69 (1.48)
+		cls_loss 0.50 (0.43)	reg_loss 0.48 (0.40)	ctr_loss 0.71 (0.65)
+Epoch: [002][00100/00156]	Time 0.80 (0.82)	Loss 1.28 (1.47)
+		cls_loss 0.38 (0.42)	reg_loss 0.36 (0.40)	ctr_loss 0.55 (0.64)
+Epoch: [002][00150/00156]	Time 0.80 (0.81)	Loss 1.21 (1.45)
+		cls_loss 0.38 (0.42)	reg_loss 0.30 (0.40)	ctr_loss 0.53 (0.64)
+[Train]: Epoch 2 finished with lr=0.02000000
+
+
+[Train]: Epoch 3 started
+Epoch: [003][00050/00156]	Time 0.83 (0.83)	Loss 1.34 (1.45)
+		cls_loss 0.40 (0.42)	reg_loss 0.34 (0.38)	ctr_loss 0.60 (0.65)
+Epoch: [003][00100/00156]	Time 0.80 (0.82)	Loss 1.40 (1.42)
+		cls_loss 0.37 (0.40)	reg_loss 0.38 (0.37)	ctr_loss 0.66 (0.65)
+Epoch: [003][00150/00156]	Time 0.81 (0.81)	Loss 1.25 (1.40)
+		cls_loss 0.35 (0.39)	reg_loss 0.31 (0.37)	ctr_loss 0.58 (0.64)
+[Train]: Epoch 3 finished with lr=0.01965926
+
+
+[Train]: Epoch 4 started
+Epoch: [004][00050/00156]	Time 0.83 (0.83)	Loss 1.53 (1.32)
+		cls_loss 0.41 (0.35)	reg_loss 0.38 (0.34)	ctr_loss 0.74 (0.63)
+Epoch: [004][00100/00156]	Time 0.80 (0.82)	Loss 1.34 (1.34)
+		cls_loss 0.35 (0.35)	reg_loss 0.35 (0.35)	ctr_loss 0.64 (0.64)
+Epoch: [004][00150/00156]	Time 0.81 (0.81)	Loss 1.15 (1.33)
+		cls_loss 0.31 (0.34)	reg_loss 0.28 (0.34)	ctr_loss 0.56 (0.64)
+[Train]: Epoch 4 finished with lr=0.01866025
+
+
+[Train]: Epoch 5 started
+Epoch: [005][00050/00156]	Time 0.83 (0.83)	Loss 1.30 (1.26)
+		cls_loss 0.34 (0.31)	reg_loss 0.31 (0.32)	ctr_loss 0.65 (0.63)
+Epoch: [005][00100/00156]	Time 0.80 (0.82)	Loss 1.28 (1.29)
+		cls_loss 0.29 (0.32)	reg_loss 0.36 (0.33)	ctr_loss 0.63 (0.63)
+Epoch: [005][00150/00156]	Time 0.80 (0.81)	Loss 1.31 (1.28)
+		cls_loss 0.34 (0.32)	reg_loss 0.32 (0.33)	ctr_loss 0.65 (0.63)
+[Train]: Epoch 5 finished with lr=0.01707107
+
+
+[Train]: Epoch 6 started
+Epoch: [006][00050/00156]	Time 0.83 (0.83)	Loss 1.11 (1.22)
+		cls_loss 0.26 (0.29)	reg_loss 0.27 (0.31)	ctr_loss 0.58 (0.62)
+Epoch: [006][00100/00156]	Time 0.81 (0.82)	Loss 1.47 (1.24)
+		cls_loss 0.36 (0.30)	reg_loss 0.37 (0.31)	ctr_loss 0.75 (0.63)
+Epoch: [006][00150/00156]	Time 0.80 (0.81)	Loss 1.20 (1.23)
+		cls_loss 0.29 (0.30)	reg_loss 0.28 (0.31)	ctr_loss 0.63 (0.63)
+[Train]: Epoch 6 finished with lr=0.01500000
+
+
+[Train]: Epoch 7 started
+Epoch: [007][00050/00156]	Time 0.83 (0.83)	Loss 1.81 (1.22)
+		cls_loss 0.40 (0.29)	reg_loss 0.49 (0.30)	ctr_loss 0.93 (0.63)
+Epoch: [007][00100/00156]	Time 0.81 (0.82)	Loss 0.96 (1.21)
+		cls_loss 0.22 (0.28)	reg_loss 0.23 (0.30)	ctr_loss 0.52 (0.63)
+Epoch: [007][00150/00156]	Time 0.80 (0.81)	Loss 1.06 (1.21)
+		cls_loss 0.22 (0.28)	reg_loss 0.27 (0.30)	ctr_loss 0.57 (0.63)
+[Train]: Epoch 7 finished with lr=0.01258819
+
+
+[Train]: Epoch 8 started
+Epoch: [008][00050/00156]	Time 0.83 (0.83)	Loss 1.17 (1.19)
+		cls_loss 0.26 (0.27)	reg_loss 0.29 (0.29)	ctr_loss 0.63 (0.63)
+Epoch: [008][00100/00156]	Time 0.79 (0.81)	Loss 1.15 (1.18)
+		cls_loss 0.26 (0.27)	reg_loss 0.28 (0.29)	ctr_loss 0.62 (0.63)
+Epoch: [008][00150/00156]	Time 0.80 (0.81)	Loss 1.47 (1.18)
+		cls_loss 0.32 (0.27)	reg_loss 0.35 (0.29)	ctr_loss 0.79 (0.63)
+[Train]: Epoch 8 finished with lr=0.01000001
+
+
+[Train]: Epoch 9 started
+Epoch: [009][00050/00156]	Time 0.83 (0.83)	Loss 0.90 (1.15)
+		cls_loss 0.20 (0.25)	reg_loss 0.21 (0.28)	ctr_loss 0.49 (0.62)
+Epoch: [009][00100/00156]	Time 0.80 (0.81)	Loss 1.28 (1.15)
+		cls_loss 0.27 (0.25)	reg_loss 0.32 (0.28)	ctr_loss 0.68 (0.62)
+Epoch: [009][00150/00156]	Time 0.80 (0.81)	Loss 1.08 (1.15)
+		cls_loss 0.24 (0.25)	reg_loss 0.25 (0.28)	ctr_loss 0.60 (0.62)
+[Train]: Epoch 9 finished with lr=0.00741182
+
+
+[Train]: Epoch 10 started
+Epoch: [010][00050/00156]	Time 0.83 (0.83)	Loss 1.08 (1.14)
+		cls_loss 0.22 (0.24)	reg_loss 0.27 (0.27)	ctr_loss 0.59 (0.63)
+Epoch: [010][00100/00156]	Time 0.80 (0.81)	Loss 0.99 (1.13)
+		cls_loss 0.21 (0.24)	reg_loss 0.23 (0.27)	ctr_loss 0.55 (0.62)
+Epoch: [010][00150/00156]	Time 0.80 (0.81)	Loss 1.04 (1.14)
+		cls_loss 0.21 (0.25)	reg_loss 0.24 (0.27)	ctr_loss 0.59 (0.63)
+[Train]: Epoch 10 finished with lr=0.00500001
+
+
+[Train]: Epoch 11 started
+Epoch: [011][00050/00156]	Time 0.83 (0.83)	Loss 1.23 (1.10)
+		cls_loss 0.24 (0.23)	reg_loss 0.30 (0.26)	ctr_loss 0.69 (0.61)
+Epoch: [011][00100/00156]	Time 0.79 (0.81)	Loss 1.01 (1.12)
+		cls_loss 0.18 (0.23)	reg_loss 0.25 (0.26)	ctr_loss 0.58 (0.62)
+Epoch: [011][00150/00156]	Time 0.80 (0.81)	Loss 1.36 (1.12)
+		cls_loss 0.27 (0.23)	reg_loss 0.33 (0.26)	ctr_loss 0.75 (0.62)
+[Train]: Epoch 11 finished with lr=0.00292894
+
+
+[Train]: Epoch 12 started
+Epoch: [012][00050/00156]	Time 0.83 (0.83)	Loss 1.11 (1.10)
+		cls_loss 0.23 (0.22)	reg_loss 0.26 (0.26)	ctr_loss 0.61 (0.62)
+Epoch: [012][00100/00156]	Time 0.80 (0.81)	Loss 0.98 (1.10)
+		cls_loss 0.19 (0.23)	reg_loss 0.22 (0.26)	ctr_loss 0.57 (0.62)
+Epoch: [012][00150/00156]	Time 0.80 (0.81)	Loss 1.01 (1.11)
+		cls_loss 0.18 (0.23)	reg_loss 0.25 (0.26)	ctr_loss 0.58 (0.62)
+[Train]: Epoch 12 finished with lr=0.00133976
+
+
+[Train]: Epoch 13 started
+Epoch: [013][00050/00156]	Time 0.83 (0.83)	Loss 0.98 (1.10)
+		cls_loss 0.19 (0.22)	reg_loss 0.24 (0.26)	ctr_loss 0.55 (0.62)
+Epoch: [013][00100/00156]	Time 0.81 (0.82)	Loss 1.22 (1.10)
+		cls_loss 0.25 (0.22)	reg_loss 0.28 (0.26)	ctr_loss 0.69 (0.62)
+Epoch: [013][00150/00156]	Time 0.80 (0.81)	Loss 1.12 (1.10)
+		cls_loss 0.22 (0.22)	reg_loss 0.26 (0.26)	ctr_loss 0.63 (0.62)
+[Train]: Epoch 13 finished with lr=0.00034075
+
+
+[Train]: Epoch 14 started
+Epoch: [014][00050/00156]	Time 0.83 (0.83)	Loss 0.91 (1.09)
+		cls_loss 0.18 (0.22)	reg_loss 0.22 (0.25)	ctr_loss 0.51 (0.62)
+Epoch: [014][00100/00156]	Time 0.79 (0.81)	Loss 1.03 (1.09)
+		cls_loss 0.21 (0.22)	reg_loss 0.23 (0.25)	ctr_loss 0.59 (0.62)
+Epoch: [014][00150/00156]	Time 0.80 (0.81)	Loss 0.98 (1.10)
+		cls_loss 0.19 (0.22)	reg_loss 0.21 (0.25)	ctr_loss 0.58 (0.62)
+[Train]: Epoch 14 finished with lr=0.00000001
+
+All done!

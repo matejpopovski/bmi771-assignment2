@@ -23,6 +23,7 @@ def main():
     writeup.mkdir(exist_ok=True)
     reference = read_json(results / 'reference_fcos/metrics.json')
     own = read_json(results / 'fcos/metrics.json')
+    audit = read_json(results / 'detection_review/detector_audit.json')
     history_path = results / 'fcos/history.jsonl'
     history = []
     if history_path.exists():
@@ -36,8 +37,10 @@ def main():
                 and (results / 'reference_fcos/reference_run.json').exists())
     lines = [
         '# Transformer block and FCOS: methods and measured results', '',
-        'Prepared with AI assistance for GitHub user seanchang1529 to review and explain. '
-        'This section does not assert that personal review or team cross-review has finished.', '',
+        '**Sean Chang (GitHub: seanchang1529)** | BMI / CS 771 Assignment 2 | Detection component (6 points)', '',
+        'This component covers the TransformerBlock review (1 point), FCOS inference (2 points), '
+        'and multitask loss/training/evaluation (3 points). It is prepared for integration with Matej Popovski\'s '
+        'classification component. AI assistance and actual work are described below.', '',
         '**Status:** ' + ('Required experiment artifacts are present; review still required.' if complete
                         else 'Incomplete: a verified cloud reference run and/or independently trained detector artifacts are missing.'), '',
         '## TransformerBlock review', '',
@@ -49,7 +52,7 @@ def main():
         'Spatial padding is added after LN1, then removed before the attention residual is added. '
         'The supplied padding convention uses zero tokens without an attention mask. This was preserved for checkpoint compatibility.', '',
         'Stochastic depth samples one keep/drop decision per original image and residual branch, broadcasts it over '
-        'all spatial positions and channels, and divides kept branches by the keep probability. '
+        'all spatial positions and channels, and divides kept branches by the keep probability [3]. '
         'It is applied after windows are reassembled, so separate windows from one image share a decision. '
         'The two calls draw independent masks. Evaluation disables stochastic depth. '
         'The added tests compare outputs and input gradients with an explicit window-loop oracle, verify zero '
@@ -81,6 +84,11 @@ def main():
         'annotation references, image existence and disjoint filenames. The instructor detector is evaluated '
         'separately and is never loaded by train_det.py. Training initializes the ResNet-18 backbone from '
         'ImageNet; FPN and detection heads start fresh. No torchvision or other external FCOS implementation is used.', '',
+        'The supplied FCOS architecture [4] uses ResNet-18 feature stages at strides 8, 16 and 32, '
+        'a 128-channel FPN and two extra levels at strides 64 and 128. Shared classification and regression '
+        'towers each contain three 3 x 3 convolution/GroupNorm/ReLU stages. Classification predicts 20 logits; '
+        'the regression tower predicts nonnegative side distances and a centerness logit. '
+        'The Pre-LN structure follows [2]; assignment-specific details are described from the reviewed source [1].', '',
     ]
     if config:
         opt = config['opt']
@@ -123,10 +131,22 @@ def main():
         lines += [f"The independently trained detector differs from the fixed reference by "
                   f"{100*(own['AP50']-reference['AP50']):+.2f} AP50 percentage points. "
                   'This is a single-seed experiment; the reference is a correctness check, not an independently trained result.', '']
+        reference_config = yaml.safe_load((results / 'reference_fcos/config.yaml').read_text())
+        lines += [f"Evaluation batch sizes differ: reference {reference_config['loader']['batch_size']}, "
+                  f"trained detector {config['loader']['batch_size']}. Both use the same architecture. "
+                  'The throughput difference is therefore not evidence that the learned model is intrinsically faster. '
+                  'Batch size, startup, caching and the number of candidate detections affect these measured timings.', '']
     if history:
         lines += [f"Recorded training: {len(history)} epochs; summed epoch wall time "
                   f"{sum(row['train']['seconds'] for row in history)/60:.2f} minutes. "
                   f"Final normalized total loss: {history[-1]['train']['final_loss']:.4f}.", '']
+        first, last = history[0]['train'], history[-1]['train']
+        lines += [f"Classification loss falls from {first['cls_loss']:.4f} to {last['cls_loss']:.4f}, "
+                  f"and regression loss from {first['reg_loss']:.4f} to {last['reg_loss']:.4f}. "
+                  f"Centerness BCE changes from {first['ctr_loss']:.4f} to {last['ctr_loss']:.4f} and plateaus earlier. "
+                  'Its targets are continuous values, so a positive BCE floor is expected. '
+                  'The training curves show stable optimization, but cannot establish overfitting or statistical significance '
+                  'from one final test evaluation. No test-set curve was used to select a checkpoint.', '']
         fig, ax = plt.subplots(figsize=(9, 4), layout='constrained')
         for key in ['cls_loss', 'reg_loss', 'ctr_loss', 'final_loss']:
             ax.plot([r['epoch'] for r in history], [r['train'][key] for r in history], label=key)
@@ -152,20 +172,51 @@ def main():
             lines += [f'![{name} test detections](../results/figures/{name}_detections.png)', '']
     lines += [
         'Examples use the first test images in deterministic loader order, with a display threshold of 0.5. '
-        'AP uses every image and the configured score threshold 0.1; NMS IoU is 0.6. '
-        'Qualitative error analysis must be added after viewing the actual trained-model examples.', '',
+        'AP uses every image and the configured score threshold 0.1; NMS IoU is 0.6.', '',
+    ]
+    analysis = writeup / 'sean_detection_analysis.md'
+    if analysis.exists():
+        lines += [analysis.read_text().strip(), '']
+    else:
+        lines += ['Qualitative error analysis requires inspection of the actual trained-model examples.', '']
+    if audit and audit['ready']:
+        trained = audit['experiments']['fcos']
+        lines += ['## Artifact verification', '',
+                  f"The detector audit passes: strict saved-config checkpoint loading, finite tensors, "
+                  f"all {trained['epochs']} scheduled epochs, 12 matched sample images per detector, and nonempty "
+                  'TensorBoard scalar streams. Recomputing COCO AP from the transferred prediction JSON files '
+                  'and the original test annotations reproduces the reported AP/AP50/AP75 exactly.', '',
+                  f"The trained checkpoint differs from the instructor checkpoint in "
+                  f"{trained['floating_tensors_different_from_instructor']} floating tensors. "
+                  'The exact SHA-256 digests are recorded in results/detection_review/detector_audit.json.', '']
+    lines += [
         '## Verification, provenance and remaining review', '',
         'Existing code was preliminary and AI-assisted. This work independently reviewed the assigned '
         'paths, added mathematical/behavioral tests, fixed stale reference reuse and measurement provenance, '
         'verified evaluation coverage, bounded sample rendering, and made checkpoint writes atomic. '
         'TransformerBlock and Matej\'s classifier artifacts were preserved. '
         'Test and package-version records are under results/detection_review/. '
-        'AI assistance covered code review, tests, workflow changes and this draft; '
-        'the user must verify understanding and confirm actual contributions under the course policy.', '',
+        'Sean Chang executed the Colab training/evaluation workflow and transferred the saved artifacts. '
+        'Codex assisted with independent review of preliminary code, tests, workflow changes, artifact audits '
+        'and this report section. Preliminary model code existed before this work; no new human authorship '
+        'is claimed for that scaffolding. Personal understanding and team cross-review still require confirmation '
+        'under the course\'s applicable assistance policy.', '',
+        'Additional common tools are pytest for tests, matplotlib for plots, reportlab for PDF generation, '
+        'and pypdf for PDF inspection. TensorBoard event parsing uses the assignment\'s required tensorboard package. '
+        'Exact cloud and local package versions are retained with the component artifacts.', '',
         'Matej should review target assignment/loss conventions, the trainval/test audit, '
         'checkpoint provenance, the real detection results and the report section before integration. '
         'The combined PDF, team contribution confirmation and final ZIP audit remain separate team steps. '
         'No merge or Canvas submission is performed by this workflow.', '',
+        '## Sources', '',
+        '[1] BMI / CS 771 Fall 2026 Assignment 2 release: readme, starter code, VOC annotations and instructor checkpoint. '
+        'The component also preserves attribution in the supplied loss and window helper files.', '',
+        '[2] Xiong et al. On Layer Normalization in the Transformer Architecture. ICML, 2020. '
+        'https://arxiv.org/abs/2002.04745', '',
+        '[3] Huang et al. Deep Networks with Stochastic Depth. ECCV, 2016. '
+        'https://arxiv.org/abs/1603.09382', '',
+        '[4] Tian et al. FCOS: A simple and strong anchor-free object detector. Journal-version manuscript, 2020. '
+        'https://arxiv.org/abs/2006.09214', '',
     ]
     output = writeup / 'sean_detection.md'
     output.write_text('\n'.join(lines))

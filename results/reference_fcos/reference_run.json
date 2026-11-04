@@ -1,0 +1,57 @@
+{
+  "checkpoint_sha256": "a5287528af113ffbe7c0d0cb530bf66faec4eff66b172c4e820be58fb3d8b928",
+  "config": {
+    "output_folder": "../logs",
+    "loader": {
+      "batch_size": 8,
+      "num_workers": 2
+    },
+    "dataset": {
+      "img_folder": "../data/VOCdevkit/VOC2007/JPEGImages",
+      "json_folder": "../data"
+    },
+    "input": {
+      "img_min_size": [
+        288,
+        320,
+        352,
+        384,
+        416,
+        448,
+        480
+      ],
+      "img_max_size": 640
+    },
+    "model": {
+      "fpn_feats_dim": 128,
+      "backbone_freeze_bn": false
+    },
+    "opt": {
+      "warmup_epochs": 3,
+      "epochs": 12,
+      "learning_rate": 0.02
+    },
+    "devices": [
+      "cuda:0"
+    ]
+  },
+  "runtime": {
+    "torch": "2.11.0+cu130",
+    "torchvision": "0.26.0+cu130",
+    "gpu": "Tesla T4"
+  },
+  "sources": {
+    "eval_det.py": "a4031f35e56aac4c8f39fa827bf93087804d607703d32d1b1d2ee4785212d767",
+    "det_libs/__init__.py": "8b93bd7b15307dd6d12ba057c3079ab43709cfa65ae0c98023173215c429e285",
+    "det_libs/config.py": "b1e996ccfd829ef3142545b5c7444b11c1e239de750095f19ead2a5012089835",
+    "det_libs/dataset.py": "e9e181817656da2bc242df80a3504830d22282bc0e547ff2ecbd350e29865fc9",
+    "det_libs/engine.py": "5daf1c3545218a6e9fc1df52bff348db11290946b14c57edf48d911c8f8dcac8",
+    "det_libs/losses.py": "9fe500752b12583f491aac10d7cfcf65056301135158e78956c990b0c13a98c2",
+    "det_libs/lr_scheduler.py": "9426750c4b90f7828eee5a4655a23b72c3b95e7a89e7ef32b5e73fbedebbb30a",
+    "det_libs/modeling.py": "a735f503324bd0dd484ce698e26251f3b64bb64cd140aa96e83c72b251f98506",
+    "det_libs/point_generator.py": "77450761505107d9f817c893403774c9627427fe65e907cb97293f0c4bd1a59c",
+    "det_libs/transforms.py": "4b2afc5a723384c578cb65a5db6aec56fb9563cfc0ba68dfdb326d1c008b6418",
+    "det_libs/utils.py": "1e006de152e5f74445e07369c8deac081a8225026f0ab4274412a8057f681e08"
+  },
+  "annotations_sha256": "f70f79b0e979328ecf2ae3638fbdb074813a1b713298a926ad2722f213173a90"
+}

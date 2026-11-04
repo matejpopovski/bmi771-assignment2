@@ -3,8 +3,8 @@
              'name': 'VOC2007',
              'test': 'test',
              'train': 'trainval'},
- 'devices': ['mps'],
- 'dtype': 'fp32',
+ 'devices': ['cuda:0'],
+ 'dtype': 'fp16',
  'input': {'img_max_size': 640,
            'img_mean': [0.485, 0.456, 0.406],
            'img_min_size': [288, 320, 352, 384, 416, 448, 480],
@@ -43,98 +43,95 @@
          'warmup_epochs': 3,
          'weight_decay': 0.0001},
  'output_folder': '../logs',
- 'seed': 771,
  'test_cfg': {'detections_per_img': 100,
               'nms_thresh': 0.6,
               'score_thresh': 0.1,
               'topk_candidates': 1000},
  'train_cfg': {'center_sampling_radius': 1.5}}
 loading annotations into memory...
-Done (t=0.03s)
+Done (t=0.08s)
 creating index...
 index created!
-=> loading checkpoint '../results/reference_fcos/model_final.pth.tar'
+=> loading checkpoint '/content/bmi771-detection/results/reference_fcos/model_final.pth.tar'
 Loading model ...
 
 Start testing ...
-/Users/matejpopovski/Desktop/matej/MASTERS/Semester3/BMI771/assignment2/.venv/lib/python3.12/site-packages/torchvision/utils.py:375: UserWarning: Argument 'font_size' will be ignored since 'font' is not set.
-  warnings.warn("Argument 'font_size' will be ignored since 'font' is not set.")
-Test: [00010/00619]	Time 0.78 (0.78)
-/Users/matejpopovski/Desktop/matej/MASTERS/Semester3/BMI771/assignment2/.venv/lib/python3.12/site-packages/torchvision/utils.py:352: UserWarning: boxes doesn't contain any box. No box was drawn
+/usr/local/lib/python3.13/dist-packages/torchvision/utils.py:352: UserWarning: boxes doesn't contain any box. No box was drawn
   warnings.warn("boxes doesn't contain any box. No box was drawn")
-Test: [00020/00619]	Time 0.21 (0.49)
-Test: [00030/00619]	Time 0.17 (0.39)
-Test: [00040/00619]	Time 0.19 (0.34)
-Test: [00050/00619]	Time 0.16 (0.30)
-Test: [00060/00619]	Time 0.19 (0.28)
-Test: [00070/00619]	Time 0.20 (0.27)
-Test: [00080/00619]	Time 0.23 (0.27)
-Test: [00090/00619]	Time 0.21 (0.26)
-Test: [00100/00619]	Time 0.21 (0.26)
-Test: [00110/00619]	Time 0.19 (0.25)
-Test: [00120/00619]	Time 0.18 (0.24)
-Test: [00130/00619]	Time 0.17 (0.24)
-Test: [00140/00619]	Time 0.16 (0.23)
-Test: [00150/00619]	Time 0.16 (0.23)
-Test: [00160/00619]	Time 0.17 (0.22)
-Test: [00170/00619]	Time 0.16 (0.22)
-Test: [00180/00619]	Time 0.16 (0.22)
-Test: [00190/00619]	Time 0.16 (0.21)
-Test: [00200/00619]	Time 0.16 (0.21)
-Test: [00210/00619]	Time 0.18 (0.21)
-Test: [00220/00619]	Time 0.21 (0.21)
-Test: [00230/00619]	Time 0.21 (0.21)
-Test: [00240/00619]	Time 0.24 (0.21)
-Test: [00250/00619]	Time 0.21 (0.21)
+Test: [00010/00619]	Time 0.70 (0.70)
+Test: [00020/00619]	Time 0.20 (0.45)
+Test: [00030/00619]	Time 0.18 (0.36)
+Test: [00040/00619]	Time 0.19 (0.32)
+Test: [00050/00619]	Time 0.20 (0.30)
+Test: [00060/00619]	Time 0.21 (0.28)
+Test: [00070/00619]	Time 0.19 (0.27)
+Test: [00080/00619]	Time 0.19 (0.26)
+Test: [00090/00619]	Time 0.18 (0.25)
+Test: [00100/00619]	Time 0.19 (0.24)
+Test: [00110/00619]	Time 0.19 (0.24)
+Test: [00120/00619]	Time 0.21 (0.23)
+Test: [00130/00619]	Time 0.21 (0.23)
+Test: [00140/00619]	Time 0.19 (0.23)
+Test: [00150/00619]	Time 0.18 (0.23)
+Test: [00160/00619]	Time 0.19 (0.22)
+Test: [00170/00619]	Time 0.18 (0.22)
+Test: [00180/00619]	Time 0.20 (0.22)
+Test: [00190/00619]	Time 0.20 (0.22)
+Test: [00200/00619]	Time 0.21 (0.22)
+Test: [00210/00619]	Time 0.21 (0.22)
+Test: [00220/00619]	Time 0.18 (0.22)
+Test: [00230/00619]	Time 0.18 (0.22)
+Test: [00240/00619]	Time 0.18 (0.21)
+Test: [00250/00619]	Time 0.19 (0.21)
 Test: [00260/00619]	Time 0.19 (0.21)
-Test: [00270/00619]	Time 0.18 (0.21)
+Test: [00270/00619]	Time 0.21 (0.21)
 Test: [00280/00619]	Time 0.22 (0.21)
-Test: [00290/00619]	Time 0.21 (0.21)
-Test: [00300/00619]	Time 0.23 (0.21)
-Test: [00310/00619]	Time 0.22 (0.21)
-Test: [00320/00619]	Time 0.18 (0.21)
-Test: [00330/00619]	Time 0.18 (0.21)
-Test: [00340/00619]	Time 0.24 (0.21)
-Test: [00350/00619]	Time 0.22 (0.21)
-Test: [00360/00619]	Time 0.21 (0.21)
-Test: [00370/00619]	Time 0.21 (0.21)
-Test: [00380/00619]	Time 0.19 (0.21)
-Test: [00390/00619]	Time 0.16 (0.21)
-Test: [00400/00619]	Time 0.15 (0.21)
-Test: [00410/00619]	Time 0.16 (0.21)
-Test: [00420/00619]	Time 0.15 (0.20)
-Test: [00430/00619]	Time 0.16 (0.20)
-Test: [00440/00619]	Time 0.15 (0.20)
-Test: [00450/00619]	Time 0.15 (0.20)
-Test: [00460/00619]	Time 0.15 (0.20)
-Test: [00470/00619]	Time 0.15 (0.20)
-Test: [00480/00619]	Time 0.16 (0.20)
-Test: [00490/00619]	Time 0.15 (0.20)
-Test: [00500/00619]	Time 0.15 (0.20)
-Test: [00510/00619]	Time 0.15 (0.19)
-Test: [00520/00619]	Time 0.15 (0.19)
-Test: [00530/00619]	Time 0.15 (0.19)
-Test: [00540/00619]	Time 0.15 (0.19)
-Test: [00550/00619]	Time 0.14 (0.19)
-Test: [00560/00619]	Time 0.15 (0.19)
-Test: [00570/00619]	Time 0.15 (0.19)
-Test: [00580/00619]	Time 0.16 (0.19)
-Test: [00590/00619]	Time 0.16 (0.19)
-Test: [00600/00619]	Time 0.15 (0.19)
-Test: [00610/00619]	Time 0.15 (0.19)
+Test: [00290/00619]	Time 0.19 (0.21)
+Test: [00300/00619]	Time 0.19 (0.21)
+Test: [00310/00619]	Time 0.20 (0.21)
+Test: [00320/00619]	Time 0.19 (0.21)
+Test: [00330/00619]	Time 0.19 (0.21)
+Test: [00340/00619]	Time 0.21 (0.21)
+Test: [00350/00619]	Time 0.24 (0.21)
+Test: [00360/00619]	Time 0.19 (0.21)
+Test: [00370/00619]	Time 0.19 (0.21)
+Test: [00380/00619]	Time 0.20 (0.21)
+Test: [00390/00619]	Time 0.19 (0.21)
+Test: [00400/00619]	Time 0.19 (0.21)
+Test: [00410/00619]	Time 0.21 (0.21)
+Test: [00420/00619]	Time 0.21 (0.21)
+Test: [00430/00619]	Time 0.21 (0.21)
+Test: [00440/00619]	Time 0.20 (0.21)
+Test: [00450/00619]	Time 0.19 (0.21)
+Test: [00460/00619]	Time 0.20 (0.21)
+Test: [00470/00619]	Time 0.20 (0.21)
+Test: [00480/00619]	Time 0.21 (0.21)
+Test: [00490/00619]	Time 0.21 (0.21)
+Test: [00500/00619]	Time 0.21 (0.21)
+Test: [00510/00619]	Time 0.19 (0.21)
+Test: [00520/00619]	Time 0.22 (0.21)
+Test: [00530/00619]	Time 0.20 (0.21)
+Test: [00540/00619]	Time 0.20 (0.21)
+Test: [00550/00619]	Time 0.19 (0.21)
+Test: [00560/00619]	Time 0.22 (0.21)
+Test: [00570/00619]	Time 0.21 (0.21)
+Test: [00580/00619]	Time 0.20 (0.21)
+Test: [00590/00619]	Time 0.20 (0.21)
+Test: [00600/00619]	Time 0.20 (0.21)
+Test: [00610/00619]	Time 0.19 (0.21)
 loading annotations into memory...
-Done (t=0.01s)
+Done (t=0.05s)
 creating index...
 index created!
 Loading and preparing results...
-DONE (t=1.27s)
+DONE (t=3.36s)
 creating index...
 index created!
 Running per image evaluation...
 Evaluate annotation type *bbox*
-DONE (t=8.00s).
+DONE (t=29.46s).
 Accumulating evaluation results...
-DONE (t=3.19s).
+DONE (t=10.14s).
  Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.328
  Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.607
  Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.319
@@ -147,4 +144,4 @@ DONE (t=3.19s).
  Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.203
  Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.438
  Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.616
-All done! Total time: 130.58 sec
+All done! Total time: 178.60 sec

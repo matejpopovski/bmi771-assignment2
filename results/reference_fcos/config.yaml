@@ -22,7 +22,5 @@ opt:
   warmup_epochs: 3
   epochs: 12
   learning_rate: 0.02
-seed: 771
 devices:
-- mps
-dtype: fp32
+- cuda:0

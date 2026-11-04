@@ -14,9 +14,9 @@ review; do not infer authorship from this plan.
 | Compare CNN with SimpleNet and pretrained ResNet-18 (§3.2.2) | 1 | Matej | All three measured results, learning curves, discussion |
 | Multi-head self-attention (§3.3.1) | 1 | Matej | `Attention` implementation and value/gradient tests |
 | ViT design, training, evaluation (§3.3.2) | 2 | Matej | `SimpleViT`, config, final weights, logs, curves, analysis |
-| Pre-LN local-attention Transformer block and stochastic depth (§3.3.1) | 1 | Teammate | Review/complete `TransformerBlock`, padding/window tests, explanation |
-| FCOS inference (§4.2) | 2 | Teammate | Decode/NMS implementation, reference AP50 and timing, sample detections |
-| FCOS multitask loss, training, evaluation (§4.3) | 3 | Teammate | Assignment/loss implementation, independently trained final detector, config/logs/curves, AP50 and visualizations |
+| Pre-LN local-attention Transformer block and stochastic depth (§3.3.1) | 1 | Sean Chang | Review/complete `TransformerBlock`, padding/window tests, explanation |
+| FCOS inference (§4.2) | 2 | Sean Chang | Decode/NMS implementation, reference AP50 and timing, sample detections |
+| FCOS multitask loss, training, evaluation (§4.3) | 3 | Sean Chang | Assignment/loss implementation, independently trained final detector, config/logs/curves, AP50 and visualizations |
 | **Total** | **12** | **6 + 6** | |
 
 A plain classification/detection split would be 7/5. Moving the one-point
@@ -79,8 +79,8 @@ requires its own measured results and writeup.
 - Report real measurements and actual work. AI-assisted implementation already
   exists in this repository; both members should review it and follow the
   course's applicable assistance/disclosure rules.
-- Teammate identity and GitHub access will be added by Matej later. The final
-  contribution statement remains incomplete until both confirm their work.
+- Sean Chang's GitHub identity is `seanchang1529`; write access is verified.
+  The final contribution statement remains incomplete until both confirm their work.
 
 ## Current handoff status - November 3, 2026
 
@@ -91,6 +91,16 @@ and an artifact audit. All four top-1/top-5 results were reproduced exactly;
 with AI assistance for Matej's review. This does not claim that Matej has already
 completed his personal review or that the teammate has done their assigned work.
 
-The teammate's independent Transformer-block/FCOS review, trained detector
-results, report sections, and confirmed contributions are still outstanding.
-Cross-review and the final combined Canvas archive follow those deliverables.
+The detector component now has an AI-assisted independent code review, 43 passing
+local/cloud tests, and a full T4 training/evaluation run executed by Sean Chang.
+TransformerBlock behavior and shapes are unchanged. The instructor checkpoint
+scores 60.6868% AP50; the independently trained final detector scores 60.5191%
+on all 4,952 test images after 15 total epochs (31.47 training-loop minutes).
+Saved configs/checkpoints, histories, event logs, loss curves, sample detections
+and Sean's component PDF/markdown are available. The detector audit reproduces
+AP from transferred predictions and verifies distinct instructor/trained weights.
+
+These technical artifacts do not assert that personal understanding, either
+member's final contribution confirmation, or human cross-review is complete.
+Matej still integrates the combined PDF; Sean audits the final team ZIP after
+integration. No merge or Canvas submission has been performed.

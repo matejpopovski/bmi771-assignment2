@@ -63,6 +63,9 @@ python code/download_datasets.py --detection-only
 python code/verify_detection_data.py
 python code/run_experiments.py --device cuda:0 --experiments fcos --reference
 python code/make_detection_report.py
+python code/verify_detection.py --recompute-ap
+python code/render_detection_report.py
+python code/package_detection.py
 ```
 
 To evaluate only the instructor checkpoint, use
@@ -87,6 +90,15 @@ TransformerBlock's source and parameter shapes are unchanged. Coordinate any
 future change with the user and re-evaluate Matej's saved ViT checkpoint.
 
 ## Report and cross-review
+
+The completed T4 run and imported artifacts are audited in
+`results/detection_review/detector_audit.json`. The trained detector scores
+60.5191% AP50 and the instructor reference 60.6868% on 4,952 test images.
+The local final suite has 44 passing tests; the cloud model/workflow suite has 43.
+Run `verify_detection.py --recompute-ap` while the original prediction JSON files
+are present to repeat the independent COCO AP check. `package_detection.py`
+creates a private component ZIP with final weights and a verified SHA-256
+manifest; it is not the combined Canvas submission.
 
 `writeup/sean_detection.md` is generated from measured results and remains
 explicitly incomplete until the required artifacts exist. Read and explain the
